@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 public class HammerAnimate : MonoBehaviour
 {
-    private int[] rotationFrames = {2,3,4,10,63,-20,-3,-2,-1,0,0,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
+    private int[] rotationFrames = {2,6,13,26,31,-8,-3,-3,-2,-2,-1,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
     public GameObject pivot;
     public float yDropSpeed = 0.1f;
     public Vector3 originalRotation;
@@ -20,14 +20,14 @@ public class HammerAnimate : MonoBehaviour
         Bottom,
         Resetting
     }
-    private HammerState currentState;
+    [SerializeField] HammerState currentState;
 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        HammerState currentState = HammerState.Idle;
+        currentState = HammerState.Idle;
         originalPose = new Pose(
             transform.position,
             transform.rotation
@@ -49,12 +49,7 @@ public class HammerAnimate : MonoBehaviour
             StartCoroutine(Animate());
         }
         else{
-            transform.SetPositionAndRotation(//discard previous frames of rotation and position
-                originalPose.position,
-                originalPose.rotation
-            );
-            StartCoroutine(Animate());
-
+            Debug.Log("you have to reset the hammer first before swinging again.");
         }
     }
 
@@ -67,13 +62,40 @@ public class HammerAnimate : MonoBehaviour
             transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * rotationFrames[i]; //proportional to 
             yield return null;
         }
+
+
+        if (currentState == HammerState.Resetting){
+            yield break; //avoid being at "bottom" while resetting because this prevents swinging
+        }
+        if (currentState == HammerState.Idle){
+            yield break; //avoid being at "bottom" while resetting because this prevents swinging
+        }
         currentState = HammerState.Bottom;
-        yield return new WaitForSeconds(0.3f);
+        
+
+
+    }
+
+    public void ResetHammer()
+    {
         currentState = HammerState.Resetting;
+        StartCoroutine(resetSmoothly());
+    
+    }
+
+    IEnumerator resetSmoothly(){
+        currentState = HammerState.Resetting;
+        for (int x = 0; x < 3; x++)
+        {
+            transform.position = Vector3.Lerp(transform.position, originalPose.position, 0.7f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, originalPose.rotation, 0.7f);
+            yield return new WaitForSeconds(0.01f); //will round up at 60fps, but also prevents higher framerates from making the animation too fast.
+        }
+
         transform.SetPositionAndRotation(
             originalPose.position,
             originalPose.rotation
         );
-
+        currentState = HammerState.Idle;
     }
 }

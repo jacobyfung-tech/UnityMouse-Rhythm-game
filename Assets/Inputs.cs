@@ -9,6 +9,9 @@ public class Inputs : MonoBehaviour
 
     float xPLast; 
     float yPLast;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +20,7 @@ public class Inputs : MonoBehaviour
 
     void HandleMouse(float dX, float dY)
     {
-        Debug.Log("Mouse delta: (" + dX + ", " + dY + ")");
+        //Debug.Log("Mouse delta: (" + dX + ", " + dY + ")");
     }
 
     void CheckMouse()
