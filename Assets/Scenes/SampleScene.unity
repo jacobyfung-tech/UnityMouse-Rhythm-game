@@ -3371,7 +3371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 1402875153}
   hammerAnimator: {fileID: 336435233}
-  mouseThreshold: 0.05
+  mouseThreshold: 0.009
   lastDMouseX: 0
   lastDMouseY: 0
   leftClickDown: 0

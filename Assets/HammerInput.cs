@@ -28,12 +28,12 @@ public class HammerInput : MonoBehaviour
         float DMouseY = inputHandler.GetMouseY();
 
         if (
-            DMouseY > mouseThreshold && 
-            lastDMouseY <= mouseThreshold &&
+            DMouseX > mouseThreshold && 
+            lastDMouseX <= mouseThreshold &&
             leftClickDown) //debounce
         {
 
-            Debug.Log("Mouse moved up by " + DMouseY + ", swinging hammer.");
+            Debug.Log("Mouse moved up by " + DMouseX + ", swinging hammer.");
 
             audioSource.loop = false;
             audioSource.clip = hitSound;
@@ -42,12 +42,12 @@ public class HammerInput : MonoBehaviour
             hammerAnimator.StartSwing();
         }
         else if (
-            DMouseY < -mouseThreshold/10 &&
-            lastDMouseY >= -mouseThreshold/10 &&
-            leftClickDown) //debounce
+            DMouseX < -mouseThreshold/10 &&
+            lastDMouseX >= -mouseThreshold/10 &&
+            hammerAnimator.currentState != HammerAnimate.HammerState.Idle) //debounce
         {
 
-            Debug.Log("Mouse moved down by " + DMouseY + ", resetting hammer.");
+            Debug.Log("Mouse moved down by " + DMouseX + ", resetting hammer.");
             hammerAnimator.ResetHammer();
 
             if (leftClickDown){
@@ -66,7 +66,7 @@ public class HammerInput : MonoBehaviour
     }
 
     void checkChargeSFX(){
-        if (!(hammerAnimator.currentState == HammerAnimate.HammerState.Idle)){
+        if (!(hammerAnimator.currentState == HammerAnimate.HammerState.Idle || hammerAnimator.currentState == HammerAnimate.HammerState.Bottom)){
             return; //don't play charging sound if hammer is not idle
         }
 
