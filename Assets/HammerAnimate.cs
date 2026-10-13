@@ -20,7 +20,7 @@ public class HammerAnimate : MonoBehaviour
         Bottom,
         Resetting
     }
-    [SerializeField] HammerState currentState;
+    public HammerState currentState;
 
 
 
