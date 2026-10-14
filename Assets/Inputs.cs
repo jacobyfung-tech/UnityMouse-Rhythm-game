@@ -10,7 +10,8 @@ public class Inputs : MonoBehaviour
     float xPLast; 
     float yPLast;
 
-
+    float deltaX;
+    float deltaY;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,11 +34,11 @@ public class Inputs : MonoBehaviour
 
     public float GetMouseX()
     {
-        return xP;
+        return deltaX;
     }
     public float GetMouseY()
     {
-        return yP;
+        return deltaY;
     }
 
     
@@ -50,8 +51,8 @@ public class Inputs : MonoBehaviour
         CheckMouse();
 
         //between here, check delta of mouse since xPLast didn't update
-        float deltaX = xP - xPLast;
-        float deltaY = yP - yPLast;
+        deltaX = xP - xPLast;
+        deltaY = yP - yPLast;
 
         HandleMouse(deltaX, deltaY);
 

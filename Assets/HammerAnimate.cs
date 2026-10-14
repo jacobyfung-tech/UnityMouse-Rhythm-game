@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 public class HammerAnimate : MonoBehaviour
 {
-    private int[] rotationFrames = {2,6,13,26,31,-8,-3,-3,-2,-2,-1,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
+    private int[] rotationFrames = {6,13,26,31,-8,-3,-3,-2,-2,-1,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
     public GameObject pivot;
     public float yDropSpeed = 0.1f;
     public Vector3 originalRotation;
