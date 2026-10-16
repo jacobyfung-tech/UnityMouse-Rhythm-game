@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class HammerInput : MonoBehaviour
 {
     public Inputs inputHandler;
@@ -14,6 +14,8 @@ public class HammerInput : MonoBehaviour
     public AudioClip chargingSound;
     public AudioClip hitSound;
 
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,8 +23,42 @@ public class HammerInput : MonoBehaviour
     }
 
     // Update is called once per frame
+
+    public void playHit(){
+        audioSource.volume = 1;
+        audioSource.loop = false;
+        audioSource.clip = hitSound;
+        audioSource.Play();
+    }
+
+    public IEnumerator playHit(float delay){ //delay version
+        yield return new WaitForSeconds(delay);
+        audioSource.volume = 1;
+        audioSource.loop = false;
+        audioSource.clip = hitSound;
+        audioSource.Play();
+    }
+
+    public void playCharge(){
+        audioSource.loop = true;
+        audioSource.clip = chargingSound; //after hitting the charging permanently cuts out so we reenable it
+        audioSource.Play();
+        StartCoroutine(fadeIn());
+    }
+
+    IEnumerator fadeIn(){
+        audioSource.volume = 0;
+        while (audioSource.volume < 0.3f){
+            audioSource.volume += 0.04f;
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+
     void Update()
     {
+
+
         leftClickDown = Input.GetMouseButton(0);
         float DMouseX = inputHandler.GetMouseX(); //currently unused but we should implement anyway
         float DMouseY = inputHandler.GetMouseY();
@@ -35,25 +71,23 @@ public class HammerInput : MonoBehaviour
 
             Debug.Log("Mouse moved up by " + DMouseX + ", swinging hammer.");
 
-            audioSource.loop = false;
-            audioSource.clip = hitSound;
-            audioSource.Play();
+            playHit();
+
 
             hammerAnimator.StartSwing();
         }
         else if (
-            DMouseX < -mouseThreshold/10 &&
-            lastDMouseX >= -mouseThreshold/10 &&
-            hammerAnimator.currentState != HammerAnimate.HammerState.Idle) //debounce
+            DMouseX < -mouseThreshold/2 &&
+            lastDMouseX >= -mouseThreshold/2 &&
+            hammerAnimator.currentState != HammerAnimate.HammerState.Idle &&
+            leftClickDown) //debounce
         {
 
             Debug.Log("Mouse moved down by " + DMouseX + ", resetting hammer.");
             hammerAnimator.ResetHammer();
 
             if (leftClickDown){
-                audioSource.loop = false;
-                audioSource.clip = chargingSound; //after hitting the charging permanently cuts out so we reenable it
-                audioSource.Play();
+                playCharge();
             }
         }
 
@@ -73,9 +107,7 @@ public class HammerInput : MonoBehaviour
 
         bool leftClickDownNow = Input.GetMouseButtonDown(0);
         if (leftClickDownNow){
-            audioSource.loop = true;
-            audioSource.clip = chargingSound;
-            audioSource.Play();
+            playCharge();
         }
         else if (Input.GetMouseButtonUp(0)){
             audioSource.loop = false;

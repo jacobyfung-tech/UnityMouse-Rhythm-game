@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 public class HammerAnimate : MonoBehaviour
 {
-    private int[] rotationFrames = {6,13,26,31,-8,-3,-3,-2,-2,-1,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
+    private int[] rotationFrames = {-6,10,17,48,-8,-3,-3,-2,-2,-1,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
     public GameObject pivot;
     public float yDropSpeed = 0.1f;
     public Vector3 originalRotation;
@@ -53,6 +53,13 @@ public class HammerAnimate : MonoBehaviour
         }
     }
 
+    
+    public void StartSwing(float delay)
+    {
+        StartCoroutine(Animate(delay));
+
+    }
+
     IEnumerator Animate()
     {
         currentState = HammerState.Swinging;
@@ -61,6 +68,29 @@ public class HammerAnimate : MonoBehaviour
             transform.RotateAround(pivot.transform.position, pivot.transform.forward, -rotationFrames[i]);
             transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * rotationFrames[i]; //proportional to 
             yield return null;
+        }
+
+
+        if (currentState == HammerState.Resetting){
+            yield break; //avoid being at "bottom" while resetting because this prevents swinging
+        }
+        if (currentState == HammerState.Idle){
+            yield break; //avoid being at "bottom" while resetting because this prevents swinging
+        }
+        currentState = HammerState.Bottom;
+        
+
+
+    }
+
+    IEnumerator Animate(float delay)
+    {
+        currentState = HammerState.Swinging;
+        for (int i = 0; i < rotationFrames.Length; i++)
+        {
+            transform.RotateAround(pivot.transform.position, pivot.transform.forward, -rotationFrames[i]);
+            transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * rotationFrames[i]; //proportional to 
+            yield return new WaitForSeconds(delay);
         }
 
 

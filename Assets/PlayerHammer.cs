@@ -17,8 +17,12 @@ public class PlayerHammer : MonoBehaviour
     public float timer;
 
     public SpriteRenderer playerR;
+    public HammerAnimate hammerAnim;
+    public HammerInput hammerInput;
 
     public Coroutine lastCoroutine;
+
+    public bool canHammerInput = false;
 
 
 
@@ -51,7 +55,7 @@ public class PlayerHammer : MonoBehaviour
 
 
     IEnumerator introAnim(){
-        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 2.5f, this));
+        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 2.1f, this));
 
         while(lastCoroutine != null){
             yield return null;
@@ -69,14 +73,37 @@ public class PlayerHammer : MonoBehaviour
             yield return null;
         }
 
+        hammerInput.playCharge();
+
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 2.5f, this));
 
         while(lastCoroutine != null){
             yield return null;
         }
 
-        
-        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, 5.5f, this));
+        float originalFrameTime = frameTime;
+
+        for (int i = 0; i < 16; i++){
+            
+            lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
+            hammerInput.StartCoroutine(hammerInput.playHit(frameTime*5)); //hammer reaches true bottom in animation at frame 5
+            hammerAnim.StartSwing(frameTime);
+            while(lastCoroutine != null){
+                yield return null;
+            }
+            hammerAnim.ResetHammer();
+
+            lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 0.27f-(i/60f), this));
+
+            while(lastCoroutine != null){
+                yield return null;
+            }
+            frameTime /= 1.2f;
+        }
+
+        frameTime = originalFrameTime;
+
+        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 1.3f, this));
 
         while(lastCoroutine != null){
             yield return null;
