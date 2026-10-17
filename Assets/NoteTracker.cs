@@ -7,6 +7,11 @@ using System.Collections;
 
 public class NoteTracker : MonoBehaviour
 {
+    //JSON SHOULD REPLACE THESE BEFORE THIS STARTS
+    public string levelTitle;
+    public float BPM;
+    public int[] levelChart;
+
 
     public double musicStartDSP = 0;
     public double elapsedTime = 0;
@@ -15,15 +20,22 @@ public class NoteTracker : MonoBehaviour
 
     public float sixteenthNote = 1;
 
-    public bool songPlaying = false;
+    public static bool songPlaying = false;
 
-    public float BPM;
+
+
+
+
+
+
+
 
     public int levelNumber;
 
     public int QbeatsPassed = 0;
 
     public AudioSource calibrationSong;
+    public AudioSource levelSong;
 
     public int lastQBeat;
 
@@ -33,6 +45,8 @@ public class NoteTracker : MonoBehaviour
     
     public float rate = 0.26f;
 
+
+
     //in the future, read BPM and chart from json
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,25 +55,30 @@ public class NoteTracker : MonoBehaviour
 
 
 
-        //ReadJson();
-        calibrationSong.Play();
 
 
-        BPM = 97; //comment out once json files are implemented
 
 
-        sixteenthNote = (0.25f / BPM) * 60f;
-        nextBeatTiming = sixteenthNote;
-        Invoke("StartMusic", 0.5f);
     }
 
-    void StartMusic()
-    {
 
-        musicStartDSP = AudioSettings.dspTime;
+    public IEnumerator startTutorial(){
+        yield return new WaitForSeconds(0.4f);
+        //ReadJson();
+        calibrationSong.Play();
+        //BPM = 97; //comment out once json files are implemented
+        sixteenthNote = (0.25f / BPM) * 60f;
+        nextBeatTiming = sixteenthNote;
         songPlaying = true;
+    }
 
-        Invoke("stringme", 0.1f);
+    public IEnumerator startLevel(AudioClip song){
+        yield return new WaitForSeconds(0.4f);
+        sixteenthNote = (0.25f / BPM) * 60f;
+        nextBeatTiming = sixteenthNote;
+        musicStartDSP = AudioSettings.dspTime;
+        levelSong.Play();
+        songPlaying = true;
     }
 
 

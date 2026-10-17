@@ -30,11 +30,16 @@ public class PlayerHammer : MonoBehaviour
 
     public float flySpeed = 0.02f;
 
+    public float xRange = 31f;
+    public float zRange = 12f;
+
+    public Vector3 realHammerPos;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {        
+        realHammerPos = hammerAnim.transform.position;
         originalPos = playerR.transform.position;
         StartCoroutine(introAnim());
     }
@@ -49,11 +54,11 @@ public class PlayerHammer : MonoBehaviour
         
 
         
-        Debug.Log("animation should have started");
+        //Debug.Log("animation should have started");
         AnimationObject anims = new AnimationObject(playerR, frames, frameTime, duration, (MonoBehaviour)script);
         anims.Play();
         yield return new WaitForSeconds(duration);
-        Debug.Log("animation should have finished");
+        //Debug.Log("animation should have finished");
 
         lastCoroutine = null;
         
@@ -74,10 +79,11 @@ public class PlayerHammer : MonoBehaviour
         }
 
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 0.6f, this));
-
+        transform.position += new Vector3(-2,1,0);
         while(lastCoroutine != null){
             yield return null;
         }
+        playerR.transform.position = originalPos;
 
 
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 2.5f, this));
@@ -94,8 +100,10 @@ public class PlayerHammer : MonoBehaviour
 
         float originalFrameTime = frameTime;
 
+        realHammerPos = hammerAnim.transform.position;
+        Vector3 hammerOffset = hammerAnim.originalPose.position - transform.position;
+
         for (int i = 0; i < 22; i++){
-            
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
             hammerInput.StartCoroutine(hammerInput.playHit(frameTime*5)); //hammer reaches true bottom in animation at frame 5
             hammerAnim.StartSwing(frameTime);
@@ -106,9 +114,19 @@ public class PlayerHammer : MonoBehaviour
 
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 0.27f-(i/60f), this));
 
-            while(lastCoroutine != null){
+            Vector3 newP = originalPos + new Vector3(Random.Range(0, xRange),0,Random.Range(-zRange,zRange));
+            
+
+
+
+            while (lastCoroutine != null) {
                 yield return null;
+                transform.position = Vector3.Lerp(transform.position, newP, 0.65f);
+                hammerAnim.originalPose = new Pose(transform.position + hammerOffset, hammerAnim.originalPose.rotation);
+                hammerAnim.transform.position = transform.position + hammerOffset; // keep the visible hammer in sync too
             }
+            transform.position = newP;
+            hammerAnim.originalPose = new Pose(newP + hammerOffset, hammerAnim.originalPose.rotation);
             frameTime /= 1.25f;
         }
 
@@ -148,6 +166,7 @@ public class PlayerHammer : MonoBehaviour
             yield return null;
         }
         playerR.transform.position = originalPos;
+        hammerAnim.transform.position = realHammerPos;
     }
 
 }

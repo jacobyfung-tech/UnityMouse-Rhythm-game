@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - SoundObj
+  - TotalPlayerTag
   layers:
   - Default
   - TransparentFX
