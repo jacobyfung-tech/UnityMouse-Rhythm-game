@@ -45,7 +45,7 @@ public class NoteTracker : MonoBehaviour
         calibrationSong.Play();
 
 
-        BPM = 130;
+        BPM = 97; //comment out once json files are implemented
 
 
         sixteenthNote = (0.25f / BPM) * 60f;

@@ -24,12 +24,18 @@ public class PlayerHammer : MonoBehaviour
 
     public bool canHammerInput = false;
 
+    public HammerIdle hammerIdle;
+
+    public Vector3 originalPos;
+
+    public float flySpeed = 0.02f;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {        
-        
+        originalPos = playerR.transform.position;
         StartCoroutine(introAnim());
     }
 
@@ -73,7 +79,6 @@ public class PlayerHammer : MonoBehaviour
             yield return null;
         }
 
-        hammerInput.playCharge();
 
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 2.5f, this));
 
@@ -81,9 +86,15 @@ public class PlayerHammer : MonoBehaviour
             yield return null;
         }
 
+        Destroy(hammerIdle);    
+        hammerInput.playCharge();
+        hammerAnim.ResetHammer();
+
+        yield return new WaitForSeconds(frameTime);
+
         float originalFrameTime = frameTime;
 
-        for (int i = 0; i < 16; i++){
+        for (int i = 0; i < 22; i++){
             
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
             hammerInput.StartCoroutine(hammerInput.playHit(frameTime*5)); //hammer reaches true bottom in animation at frame 5
@@ -98,19 +109,45 @@ public class PlayerHammer : MonoBehaviour
             while(lastCoroutine != null){
                 yield return null;
             }
-            frameTime /= 1.2f;
+            frameTime /= 1.25f;
         }
 
-        frameTime = originalFrameTime;
+        frameTime = 0.01f;
 
-        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 1.3f, this));
+        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 1.9f, this));
+
+        Debug.Log("commence comedic flying");
+
+        StartCoroutine(FlyAway());
 
         while(lastCoroutine != null){
             yield return null;
         }
 
-        Debug.Log("done with intro animation");
+        frameTime = originalFrameTime;
 
+
+
+
+
+    }
+
+    IEnumerator FlyAway(){
+        float originalFlySpeed = flySpeed;
+        for(int i = 0; i < 155; i++){ 
+            playerR.transform.position += new Vector3(-flySpeed+Random.value/4, flySpeed/2+Random.value/4, 0);
+            flySpeed *= 1.1f;
+            yield return null;
+        }
+        flySpeed = originalFlySpeed;
+
+        yield return new WaitForSeconds(0.25f);
+
+        for(int i = 0; i < 15; i++){ 
+            playerR.transform.position = Vector3.Lerp(playerR.transform.position, originalPos, 0.6f);
+            yield return null;
+        }
+        playerR.transform.position = originalPos;
     }
 
 }
