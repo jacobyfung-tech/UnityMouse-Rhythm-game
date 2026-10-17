@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class forwardLine : MonoBehaviour
 {
-    public Vector3 offset = new Vector3(0f, 0f, 0f);
+    public float offset;
 
     private LineRenderer line;
 
@@ -21,7 +21,8 @@ public class forwardLine : MonoBehaviour
     {
         Vector3 p1 = transform.position;
         line.SetPosition(0, p1);
-        line.SetPosition(1, p1 + offset);
-        
+        line.SetPosition(1, p1 + offset*transform.forward);
+        line.startColor = lineColor;
+        line.endColor = lineColorEnd;
     }
 }

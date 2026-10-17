@@ -25,7 +25,7 @@ public class NoteTracker : MonoBehaviour
 
 
 
-
+    public float originalWobble;
 
 
 
@@ -52,7 +52,7 @@ public class NoteTracker : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        originalWobble = VectorUtils.globalWobble;
 
 
 
@@ -108,7 +108,7 @@ public class NoteTracker : MonoBehaviour
     }
 
     IEnumerator DecomposeGraphics(){
-        float originalWobble = VectorUtils.globalWobble;
+        
         float tWobble = VectorUtils.globalWobble * intensity;
 
         for (int i = 0; i < 10; i++){

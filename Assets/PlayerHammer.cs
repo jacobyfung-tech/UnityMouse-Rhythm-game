@@ -35,6 +35,8 @@ public class PlayerHammer : MonoBehaviour
 
     public Vector3 realHammerPos;
 
+    public AudioClip suprised;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -78,6 +80,7 @@ public class PlayerHammer : MonoBehaviour
             yield return null;
         }
 
+        AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 0.3f);
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 0.6f, this));
         transform.position += new Vector3(-2,1,0);
         while(lastCoroutine != null){
@@ -98,10 +101,20 @@ public class PlayerHammer : MonoBehaviour
 
         yield return new WaitForSeconds(frameTime);
 
+
+
+
+
         float originalFrameTime = frameTime;
+
+
+
 
         realHammerPos = hammerAnim.transform.position;
         Vector3 hammerOffset = hammerAnim.originalPose.position - transform.position;
+
+
+
 
         for (int i = 0; i < 22; i++){
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
@@ -130,11 +143,12 @@ public class PlayerHammer : MonoBehaviour
             frameTime /= 1.25f;
         }
 
-        frameTime = 0.01f;
+        frameTime = originalFrameTime/2;
 
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 1.9f, this));
 
         Debug.Log("commence comedic flying");
+
 
         StartCoroutine(FlyAway());
 
@@ -151,9 +165,13 @@ public class PlayerHammer : MonoBehaviour
     }
 
     IEnumerator FlyAway(){
+        for(int i = 0; i < 50; i++){ 
+            playerR.transform.position += new Vector3(Random.value/4 - .125f, Random.value/4 -.125f, 0);
+            yield return null;
+        }
         float originalFlySpeed = flySpeed;
         for(int i = 0; i < 155; i++){ 
-            playerR.transform.position += new Vector3(-flySpeed+Random.value/4, flySpeed/2+Random.value/4, 0);
+            playerR.transform.position += new Vector3(-flySpeed+Random.value/4 - .125f, flySpeed/2+Random.value/4 - .125f, 0);
             flySpeed *= 1.1f;
             yield return null;
         }
