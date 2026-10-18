@@ -15,6 +15,13 @@ public class GameState : MonoBehaviour
     }
     void Start()
     {
+        // 1. Disable VSync (Required, otherwise targetFrameRate is ignored)
+        QualitySettings.vSyncCount = 0;
+
+        // 2. Set the target frame rate (e.g., 60 FPS)
+        Application.targetFrameRate = 60;
+
+        
         loadJSON();
 
         if (levelNumber == 0){

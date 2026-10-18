@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class forwardLine : MonoBehaviour
+public class bgLine : MonoBehaviour
 {
     public float offset;
 
@@ -19,9 +19,10 @@ public class forwardLine : MonoBehaviour
 
     void Update()
     {
+        //line.enabled = !line.enabled;
         Vector3 p1 = transform.position;
         line.SetPosition(0, p1);
-        line.SetPosition(1, p1 + offset*transform.forward);
+        line.SetPosition(1, p1 + offset*transform.right);
         line.startColor = lineColor;
         line.endColor = lineColorEnd;
     }

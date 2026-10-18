@@ -914,6 +914,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: HammerSp_35
+      rect:
+        serializedVersion: 2
+        x: 7189
+        y: 826
+        width: 313
+        height: 493
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1db5bc1f17d6344b859bcbe14ae9aca
+      internalID: -2000145349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HammerSp_36
+      rect:
+        serializedVersion: 2
+        x: 7596
+        y: 829
+        width: 313
+        height: 493
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 254724a77ec21884a9a5ffe90b1e9add
+      internalID: 278226407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -958,6 +1002,8 @@ TextureImporter:
       HammerSp_32: 908882809
       HammerSp_33: -1703196850
       HammerSp_34: 1525129105
+      HammerSp_35: -2000145349
+      HammerSp_36: 278226407
       HammerSp_4: 1271279605
       HammerSp_5: -179608684
       HammerSp_6: -1439709799

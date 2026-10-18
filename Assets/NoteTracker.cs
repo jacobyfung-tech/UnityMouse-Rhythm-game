@@ -27,7 +27,7 @@ public class NoteTracker : MonoBehaviour
 
     public float originalWobble;
 
-
+    public PlayerHammer playerScript;
 
 
     public int levelNumber;
@@ -64,6 +64,7 @@ public class NoteTracker : MonoBehaviour
 
     public IEnumerator startTutorial(){
         yield return new WaitForSeconds(0.4f);
+        playerScript.StartIntro();
         //ReadJson();
         calibrationSong.Play();
         //BPM = 97; //comment out once json files are implemented

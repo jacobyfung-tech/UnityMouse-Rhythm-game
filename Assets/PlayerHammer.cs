@@ -6,40 +6,59 @@ using System.Collections;
 
 public class PlayerHammer : MonoBehaviour
 {
-
+    [Header("Sprite Animations")]
     public Sprite[] keyPose1;
     public Sprite[] transistion;
     public Sprite[] jumpscare;
     public Sprite[] keyPose2;
     public Sprite[] hammerSwing;
+    public Sprite[] glance;
 
+    [Header("Timing")]
     public float frameTime;
     public float timer;
 
+    [Header("References")]
     public SpriteRenderer playerR;
     public HammerAnimate hammerAnim;
     public HammerInput hammerInput;
 
+    [Header("Cutscene State")]
     public Coroutine lastCoroutine;
-
     public bool canHammerInput = false;
 
+    [Header("Hammer")]
     public HammerIdle hammerIdle;
 
+    [Header("Positions")]
     public Vector3 originalPos;
 
+    [Header("Fly Away")]
     public float flySpeed = 0.02f;
 
-    public float xRange = 31f;
+    [Header("Hammer Barrage Range")]
+    public float xRange = 25f;
     public float zRange = 12f;
 
+    [Header("Hammer Position")]
     public Vector3 realHammerPos;
 
+    [Header("Audio")]
     public AudioClip suprised;
 
+    [Header("Camera")]
+    public float initialOffset;
+    public Vector3 original;
+    public GameObject camera;
+    public float cameraLSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Start(){
+        original = camera.transform.position;
+        camera.transform.position = original+new Vector3(-initialOffset,0,0);
+    }
+
+    public void StartIntro()
     {        
         realHammerPos = hammerAnim.transform.position;
         originalPos = playerR.transform.position;
@@ -65,15 +84,23 @@ public class PlayerHammer : MonoBehaviour
         lastCoroutine = null;
         
     }
-
+    IEnumerator PanCamera(Vector3 original,float cameraLSpeed){
+        for(int i = 0; i < 500; i++){ 
+            camera.transform.position = Vector3.Lerp(camera.transform.position,original,cameraLSpeed);
+            yield return null;
+        }
+        camera.transform.position = original;
+    }
 
     IEnumerator introAnim(){
-        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 2.1f, this));
+
+        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 1.8f, this));
 
         while(lastCoroutine != null){
             yield return null;
         }
 
+        StartCoroutine(PanCamera(original,cameraLSpeed));
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, transistion, frameTime, transistion.Length * frameTime, this));
 
         while(lastCoroutine != null){
@@ -82,14 +109,21 @@ public class PlayerHammer : MonoBehaviour
 
         AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 0.3f);
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 0.6f, this));
-        transform.position += new Vector3(-2,1,0);
+
+        Vector3 beforePos = playerR.transform.position;
         while(lastCoroutine != null){
+            playerR.transform.position = Vector3.Lerp(playerR.transform.position, beforePos + new Vector3(-1,4,0),0.4f);
             yield return null;
         }
-        playerR.transform.position = originalPos;
+
+        for(int i = 0; i < 4; i++){ 
+            playerR.transform.position = Vector3.Lerp(playerR.transform.position, beforePos,0.6f);
+            yield return null;
+        }
+        playerR.transform.position = beforePos;
 
 
-        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 2.5f, this));
+        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 0.4f, this));
 
         while(lastCoroutine != null){
             yield return null;
@@ -99,21 +133,19 @@ public class PlayerHammer : MonoBehaviour
         hammerInput.playCharge();
         hammerAnim.ResetHammer();
 
-        yield return new WaitForSeconds(frameTime);
+        lastCoroutine = StartCoroutine(ChangeAnimation(playerR, glance, frameTime, glance.Length*frameTime, this));
 
+        while(lastCoroutine != null){
+            yield return null;
+        }
 
 
 
 
         float originalFrameTime = frameTime;
 
-
-
-
         realHammerPos = hammerAnim.transform.position;
         Vector3 hammerOffset = hammerAnim.originalPose.position - transform.position;
-
-
 
 
         for (int i = 0; i < 22; i++){
@@ -127,7 +159,13 @@ public class PlayerHammer : MonoBehaviour
 
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose2, frameTime, 0.27f-(i/60f), this));
 
-            Vector3 newP = originalPos + new Vector3(Random.Range(0, xRange),0,Random.Range(-zRange,zRange));
+            Vector3 newP;
+            if (i < 21){
+                newP = originalPos + new Vector3(Random.Range(0, xRange),0,Random.Range(-zRange,zRange));
+            }
+            else{
+                newP = originalPos; //reset properly;
+            }
             
 
 
@@ -142,6 +180,9 @@ public class PlayerHammer : MonoBehaviour
             hammerAnim.originalPose = new Pose(newP + hammerOffset, hammerAnim.originalPose.rotation);
             frameTime /= 1.25f;
         }
+
+
+
 
         frameTime = originalFrameTime/2;
 
