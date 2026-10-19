@@ -57,7 +57,9 @@ public class HammerInput : MonoBehaviour
 
     void Update()
     {
-
+        if (GameState.canInput == false){
+            return;
+        }
 
         leftClickDown = Input.GetMouseButton(0);
         float DMouseX = inputHandler.GetMouseX(); //currently unused but we should implement anyway

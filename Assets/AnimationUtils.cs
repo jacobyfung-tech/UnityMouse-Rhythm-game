@@ -16,6 +16,7 @@ public class AnimationUtils : MonoBehaviour
     }
 
     private static IEnumerator playOnceC(SpriteRenderer s, Sprite[] frames, float delay,float duration){
+        
         float start = Time.time;
         float elapsed = 0f;
         while(true){

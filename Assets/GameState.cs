@@ -5,6 +5,7 @@ public class GameState : MonoBehaviour
     public static int levelNumber = 0; //not set
     public AudioClip[] songList;
     public NoteTracker nT;
+    public static bool canInput = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void loadJSON(){
@@ -25,9 +26,11 @@ public class GameState : MonoBehaviour
         loadJSON();
 
         if (levelNumber == 0){
+            canInput = false;
             StartCoroutine(nT.startTutorial());
         }
         else{
+            canInput = true;
             StartCoroutine(nT.startLevel(songList[levelNumber]));
         }
     }

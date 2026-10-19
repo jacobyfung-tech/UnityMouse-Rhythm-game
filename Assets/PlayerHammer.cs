@@ -25,7 +25,6 @@ public class PlayerHammer : MonoBehaviour
 
     [Header("Cutscene State")]
     public Coroutine lastCoroutine;
-    public bool canHammerInput = false;
 
     [Header("Hammer")]
     public HammerIdle hammerIdle;
@@ -52,8 +51,13 @@ public class PlayerHammer : MonoBehaviour
     public GameObject camera;
     public float cameraLSpeed;
 
+
+    [Header("Wobble")]
+    public float originalWobble;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){
+        originalWobble = VectorUtils.globalWobbleMult;
         original = camera.transform.position;
         camera.transform.position = original+new Vector3(-initialOffset,0,0);
     }
@@ -100,12 +104,13 @@ public class PlayerHammer : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(PanCamera(original,cameraLSpeed));
+        
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, transistion, frameTime, transistion.Length * frameTime, this));
 
         while(lastCoroutine != null){
             yield return null;
         }
+        StartCoroutine(PanCamera(original,cameraLSpeed));
 
         AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 0.3f);
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 0.6f, this));
@@ -151,6 +156,7 @@ public class PlayerHammer : MonoBehaviour
         for (int i = 0; i < 22; i++){
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
             hammerInput.StartCoroutine(hammerInput.playHit(frameTime*5)); //hammer reaches true bottom in animation at frame 5
+            VectorUtils.globalWobbleMult *= 1.2f; //cutscene only
             hammerAnim.StartSwing(frameTime);
             while(lastCoroutine != null){
                 yield return null;
@@ -199,7 +205,7 @@ public class PlayerHammer : MonoBehaviour
 
         frameTime = originalFrameTime;
 
-
+        VectorUtils.globalWobbleMult = originalWobble;
 
 
 
@@ -226,6 +232,7 @@ public class PlayerHammer : MonoBehaviour
         }
         playerR.transform.position = originalPos;
         hammerAnim.transform.position = realHammerPos;
+        GameState.canInput = true;
     }
 
 }
