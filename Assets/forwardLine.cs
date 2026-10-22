@@ -1,42 +1,41 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 public class bgLine : MonoBehaviour
 {
-    public float offset;
-
     private LineRenderer line;
 
-    public Color lineColor; 
-    public Color lineColorEnd; 
+    public Color lineColor;
+    public Color lineColorEnd;
+
+    public float pointDist;
+    public float drawDist = 500f;
+    public int pointC = 50;
+
+    private Vector3[] points; // private so the Inspector can't override its length
+    private List<Vector3> vectorList;
 
     void Awake()
     {
+        pointDist = drawDist / pointC;
+        points = new Vector3[pointC];
         line = GetComponent<LineRenderer>();
-        line.positionCount = 2;
+        line.positionCount = pointC;
         line.startColor = lineColor;
         line.endColor = lineColorEnd;
+        vectorList = new List<Vector3>(pointC);   // this was missing
     }
 
     void Update()
     {
-        //line.enabled = !line.enabled;
         Vector3 p1 = transform.position;
-        line.SetPosition(0, p1);
-        line.SetPosition(1, p1 + offset*transform.right);
-        line.startColor = lineColor;
-        line.endColor = lineColorEnd;
-        ApplyWobble();
-    }
+        for (int i = 0; i < points.Length; i++)
+            points[i] = p1 + pointDist * i * transform.right;
 
-    void ApplyWobble(){
-        List<Vector3> positions =  new List<Vector3> {line.GetPosition(0),line.GetPosition(1)};
+        vectorList.Clear();
+        vectorList.AddRange(points);
+        VectorUtils.AnimationJitter(vectorList);
 
-
-        line.GetPositions(positions.ToArray());
-
-        VectorUtils.AnimationJitter(positions);
-
-        line.SetPositions(positions.ToArray());
+        vectorList.CopyTo(points);
+        line.SetPositions(points);
     }
 }

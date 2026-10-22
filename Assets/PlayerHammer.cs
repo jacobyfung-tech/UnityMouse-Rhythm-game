@@ -156,7 +156,7 @@ public class PlayerHammer : MonoBehaviour
         for (int i = 0; i < 22; i++){
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
             hammerInput.StartCoroutine(hammerInput.playHit(frameTime*5)); //hammer reaches true bottom in animation at frame 5
-            VectorUtils.globalWobbleMult *= 1.2f; //cutscene only
+
             hammerAnim.StartSwing(frameTime);
             while(lastCoroutine != null){
                 yield return null;
@@ -205,7 +205,7 @@ public class PlayerHammer : MonoBehaviour
 
         frameTime = originalFrameTime;
 
-        VectorUtils.globalWobbleMult = originalWobble;
+        //VectorUtils.globalWobbleMult = originalWobble;
 
 
 
