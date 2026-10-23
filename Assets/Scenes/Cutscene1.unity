@@ -28912,7 +28912,8 @@ MonoBehaviour:
   xRange: 31
   zRange: 12
   realHammerPos: {x: 0, y: 0, z: 0}
-  suprised: {fileID: 8300000, guid: c66b962e04eebcf4b8e546888d74646b, type: 3}
+  suprised: {fileID: 8300000, guid: ba67e4f0f5f8b6e4eb6a0930c218b92b, type: 3}
+  goofySkedaddleSFX: {fileID: 8300000, guid: c9ed363a7a5f6a447b25cc262591f7d1, type: 3}
   initialOffset: 25
   original: {x: 0, y: 0, z: 0}
   camera: {fileID: 330585543}

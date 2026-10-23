@@ -53,6 +53,13 @@ public class CalcDrumModel : MonoBehaviour
         baseFace.positionCount = (int)segments;
 
         connectorFace.positionCount = (int)segments*3 / 2 - 1; //WHY
+
+        topFace.widthMultiplier = VectorUtils.lineThickness;
+        top2Face.widthMultiplier = VectorUtils.lineThickness;
+        botFace.widthMultiplier = VectorUtils.lineThickness;
+        midFace.widthMultiplier = VectorUtils.lineThickness;
+        baseFace.widthMultiplier = VectorUtils.lineThickness;
+        connectorFace.widthMultiplier = VectorUtils.lineThickness;
         
     }
     void Update(){ //order faces from top to bottom for readability

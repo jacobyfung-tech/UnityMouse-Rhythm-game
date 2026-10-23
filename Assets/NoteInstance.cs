@@ -7,19 +7,24 @@ using System.Collections;
 
 public class NoteInstance : MonoBehaviour
 {
-    public double duration;
-    public double calibrationOffset;
+    public float duration;
+    public float calibrationOffset;
     public double createdT;
     public GameObject target; //we need to use d = rt to get here in sync with song
     public Vector3 rate;
     public bool missed;
-    public Enum state{
+    public Vector3 originalPos;
+    public enum state{
         Waiting,
         HitWindowOpen,
-        HitWindowClosed,
+        HitWindowClosed
 
     }
     public state currentState;
+
+    void Awake(){
+        originalPos = transform.position;
+    }
 
     void Start(){
         currentState = state.Waiting;
@@ -28,6 +33,7 @@ public class NoteInstance : MonoBehaviour
     }
 
     void Update(){
+        float elapsed = (float)(Time.timeAsDouble - createdT);
         if(Time.timeAsDouble > createdT + duration - calibrationOffset && Time.timeAsDouble < createdT + duration + calibrationOffset){
             currentState = state.HitWindowOpen;
         }
@@ -36,8 +42,9 @@ public class NoteInstance : MonoBehaviour
         }
         else{
             currentState = state.Waiting;
-            transform.position += rate * Time.deltaTime;
+            
         }
+        transform.position = originalPos + rate * elapsed;
 
     }
 }

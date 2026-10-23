@@ -4,7 +4,7 @@ public static class VectorUtils{ //static so future scripts can access this func
 
     public static float globalWobble = 0.02f;
     public static float globalWobbleMult = 1f;
-
+    public static float lineThickness = 0.8f;
 
     public static void DrawCircle(List<Vector3> points, float segments, float radius, Transform transform){
         for(int segment = 0; segment < segments; segment++){
@@ -45,7 +45,10 @@ public static class VectorUtils{ //static so future scripts can access this func
             Random.Range(-wobble*VectorUtils.globalWobbleMult, wobble*VectorUtils.globalWobbleMult), 
             Random.Range(-wobble*VectorUtils.globalWobbleMult, wobble*VectorUtils.globalWobbleMult));
         }
+
+        
     }
+
 
     public static void Connect2Faces(List<Vector3> midFace, List<Vector3> face1, List<Vector3> face2, float segmentsC)
     {

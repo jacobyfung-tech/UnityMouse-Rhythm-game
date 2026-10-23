@@ -23,7 +23,9 @@ public class CalcCylinderThick : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        topFace.widthMultiplier = VectorUtils.lineThickness;
+        botFace.widthMultiplier = VectorUtils.lineThickness;
+        connectorFace.widthMultiplier = VectorUtils.lineThickness;
     }
 
     // Update is called once per frame
@@ -31,6 +33,10 @@ public class CalcCylinderThick : MonoBehaviour
         topFace.positionCount = (int)segments;
         botFace.positionCount = (int)segments;
         connectorFace.positionCount = (int)segments * 3/2 -1;
+    
+        topFace.widthMultiplier = VectorUtils.lineThickness;
+        botFace.widthMultiplier = VectorUtils.lineThickness;
+        connectorFace.widthMultiplier = VectorUtils.lineThickness;
     }
 
     void Update()

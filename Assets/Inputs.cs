@@ -41,12 +41,19 @@ public class Inputs : MonoBehaviour
         return deltaY;
     }
 
-    
+    void LineThicknessMod(){ //debug to check if lineThickness is actually global
+        if(Input.GetKey(KeyCode.A)){
+            VectorUtils.lineThickness -= 0.05f;
+        }
+        else if(Input.GetKey(KeyCode.D)){
+            VectorUtils.lineThickness += 0.05f;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-    
+        LineThicknessMod();
         
         CheckMouse();
 

@@ -47,12 +47,14 @@ public class PlayerHammer : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip suprised;
+    public AudioClip goofySkedaddleSFX;
 
     [Header("Camera")]
     public float initialOffset;
     public Vector3 original;
     public GameObject camera;
     public float cameraLSpeed;
+    public float zoomOrig;
 
 
     [Header("Wobble")]
@@ -62,7 +64,7 @@ public class PlayerHammer : MonoBehaviour
     void Start(){
         originalWobble = VectorUtils.globalWobbleMult;
         original = camera.transform.position;
-        camera.transform.position = original+new Vector3(-initialOffset,0,0);
+        camera.transform.position = original+new Vector3(-initialOffset,0,0) + camera.transform.forward*zoomOrig;;
     }
 
     public void StartIntro()
@@ -100,11 +102,13 @@ public class PlayerHammer : MonoBehaviour
     }
 
     IEnumerator Spin(){
+        AudioSource.PlayClipAtPoint(goofySkedaddleSFX, Camera.main.transform.position, 0.9f);
         float rotationSpeedT = rotationSpeed;
         while (true){
             yield return null;
-            entireObj.transform.Rotate(Vector3.up * rotationSpeedT * Time.deltaTime);
-            rotationSpeed *= 8f;
+            entireObj.transform.Rotate(Vector3.up * rotationSpeedT);
+            rotationSpeedT = Mathf.Min(rotationSpeedT * 1.08f, 420f);
+            transform.position += new Vector3(0,rotationSpeedT,0);
         }
     }
 
@@ -124,7 +128,7 @@ public class PlayerHammer : MonoBehaviour
         }
         StartCoroutine(PanCamera(original,cameraLSpeed));
 
-        AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 0.9f);
+        AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 1.0f);
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 0.6f, this));
 
         Vector3 beforePos = playerR.transform.position;
