@@ -9,6 +9,7 @@ public class Explosion : MonoBehaviour
     public int cloned;
     public Vector3 oP;
     public int range = 4;
+    public AudioClip blowUp;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,9 +18,10 @@ public class Explosion : MonoBehaviour
         Explode();
     }
 
-    void Explode(){
+    public void Explode(){
         AnimationObject anims = new AnimationObject(playerR, frames, frameTime, frames.Length*frameTime, (MonoBehaviour)this);
         anims.Play();
+        AudioSource.PlayClipAtPoint(blowUp, Camera.main.transform.position, 1.0f);
         //Invoke("Move",frames.Length*frameTime);
         
     }

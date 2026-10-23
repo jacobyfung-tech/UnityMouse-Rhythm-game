@@ -17,11 +17,14 @@ public class PlayerHammer : MonoBehaviour
     [Header("Timing")]
     public float frameTime;
     public float timer;
+    public float rotationSpeed;
 
     [Header("References")]
     public SpriteRenderer playerR;
     public HammerAnimate hammerAnim;
     public HammerInput hammerInput;
+    public Explosion explosion;
+    public GameObject entireObj;
 
     [Header("Cutscene State")]
     public Coroutine lastCoroutine;
@@ -96,6 +99,15 @@ public class PlayerHammer : MonoBehaviour
         camera.transform.position = original;
     }
 
+    IEnumerator Spin(){
+        float rotationSpeedT = rotationSpeed;
+        while (true){
+            yield return null;
+            entireObj.transform.Rotate(Vector3.up * rotationSpeedT * Time.deltaTime);
+            rotationSpeed *= 8f;
+        }
+    }
+
     IEnumerator introAnim(){
 
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 1.8f, this));
@@ -112,7 +124,7 @@ public class PlayerHammer : MonoBehaviour
         }
         StartCoroutine(PanCamera(original,cameraLSpeed));
 
-        AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 0.3f);
+        AudioSource.PlayClipAtPoint(suprised, Camera.main.transform.position, 0.9f);
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, jumpscare, frameTime, 0.6f, this));
 
         Vector3 beforePos = playerR.transform.position;
@@ -152,6 +164,7 @@ public class PlayerHammer : MonoBehaviour
         realHammerPos = hammerAnim.transform.position;
         Vector3 hammerOffset = hammerAnim.originalPose.position - transform.position;
 
+        frameTime *= 0.7f;
 
         for (int i = 0; i < 22; i++){
             lastCoroutine = StartCoroutine(ChangeAnimation(playerR, hammerSwing, frameTime, hammerSwing.Length * frameTime, this));
@@ -172,6 +185,12 @@ public class PlayerHammer : MonoBehaviour
             else{
                 newP = originalPos; //reset properly;
             }
+
+            if (i == 20){
+                explosion.Explode();
+                StartCoroutine(Spin());
+            }
+
             
 
 
@@ -212,7 +231,7 @@ public class PlayerHammer : MonoBehaviour
     }
 
     IEnumerator FlyAway(){
-        for(int i = 0; i < 50; i++){ 
+        for(int i = 0; i < 75; i++){ 
             playerR.transform.position += new Vector3(Random.value/4 - .125f, Random.value/4 -.125f, 0);
             yield return null;
         }
