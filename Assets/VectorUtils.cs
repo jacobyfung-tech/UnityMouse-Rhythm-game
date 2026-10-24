@@ -14,6 +14,16 @@ public static class VectorUtils{ //static so future scripts can access this func
             //Debug.Log(circleOffset);
         }
     }
+
+    public static void DrawCircleQuarter(List<Vector3> points, int segments, float radius, Transform transform, Vector3 center, float startTurns)
+    {
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = (startTurns + (i / (float)segments) * 0.25f) * 2f * Mathf.PI;
+            Vector3 local = center + new Vector3(Mathf.Sin(angle), 0f, Mathf.Cos(angle)) * radius;
+            points.Add(transform.TransformPoint(local));
+        }
+    }
     public static void DrawCircle(List<Vector3> points, float segments, float radius, Transform transform, float jaggedOffset){ //if jagged
         for(int segment = 0; segment < segments; segment++){
 

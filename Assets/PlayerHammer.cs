@@ -102,13 +102,14 @@ public class PlayerHammer : MonoBehaviour
     }
 
     IEnumerator Spin(){
-        AudioSource.PlayClipAtPoint(goofySkedaddleSFX, Camera.main.transform.position, 0.9f);
+        yield return new WaitForSeconds(0.65f);
+        AudioSource.PlayClipAtPoint(goofySkedaddleSFX, Camera.main.transform.position, 0.4f);
         float rotationSpeedT = rotationSpeed;
         while (true){
             yield return null;
             entireObj.transform.Rotate(Vector3.up * rotationSpeedT);
             rotationSpeedT = Mathf.Min(rotationSpeedT * 1.08f, 420f);
-            transform.position += new Vector3(0,rotationSpeedT,0);
+            entireObj.transform.position += new Vector3(0,rotationSpeedT/14f,0);
         }
     }
 
@@ -235,7 +236,7 @@ public class PlayerHammer : MonoBehaviour
     }
 
     IEnumerator FlyAway(){
-        for(int i = 0; i < 75; i++){ 
+        for(int i = 0; i < 45; i++){ 
             playerR.transform.position += new Vector3(Random.value/4 - .125f, Random.value/4 -.125f, 0);
             yield return null;
         }
