@@ -1,17 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 [ExecuteAlways]
-public class NoteRender1 : MonoBehaviour
+public class RectanglePrismRound : MonoBehaviour
 {
 
-    public List<Vector3> points;
+    public List<Vector3> pointsTop;
     public List<Vector3> pointsBottom;
     public List<Vector3> pointsConnector;
 
 
     public float topThickness;
     //public bool loopPts; //whether last point should connect to first point, property in lineRenderer
+    public LineRenderer botFace;
     public LineRenderer topFace;
+    public LineRenderer connectorFace;
 
     public int pointsPerCorner;
     public float radius;
@@ -21,6 +23,9 @@ public class NoteRender1 : MonoBehaviour
     public float jitter = 0.01f;
 
     public float edgeSize = 1;
+
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,22 +42,34 @@ public class NoteRender1 : MonoBehaviour
 
     }
 
-    void AddCorners(){
-        VectorUtils.DrawCircleQuarter(points, 8, radius, transform,new Vector3(edgeSize,0,edgeSize),0f);
-        VectorUtils.DrawCircleQuarter(points, 8, radius, transform,new Vector3(edgeSize,0,-edgeSize),0.25f);
-        VectorUtils.DrawCircleQuarter(points, 8, radius, transform,new Vector3(-edgeSize,0,-edgeSize),.5f);
-        VectorUtils.DrawCircleQuarter(points, 8, radius, transform,new Vector3(-edgeSize,0,edgeSize),.75f);
+    void AddCorners(List<Vector3> points,Vector3 offset){
+        VectorUtils.DrawCircleQuarter(points, pointsPerCorner, radius, transform,new Vector3(edgeSize+offset.x,0+offset.y,edgeSize+offset.z),0f);
+        VectorUtils.DrawCircleQuarter(points, pointsPerCorner, radius, transform,new Vector3(edgeSize+offset.x,0+offset.y,-edgeSize+offset.z),0.25f);
+        VectorUtils.DrawCircleQuarter(points, pointsPerCorner, radius, transform,new Vector3(-edgeSize+offset.x,0+offset.y,-edgeSize+offset.z),.5f);
+        VectorUtils.DrawCircleQuarter(points, pointsPerCorner, radius, transform,new Vector3(-edgeSize+offset.x,0+offset.y,edgeSize+offset.z),.75f);
     }
 
     void Update(){ 
+        botFace.positionCount = pointsPerCorner * 4;
+        pointsBottom.Clear();
+        AddCorners(pointsBottom,new Vector3(0,0,0));
+        VectorUtils.AnimationJitter(pointsBottom);
+        botFace.positionCount = pointsBottom.Count;
+        botFace.SetPositions(pointsBottom.ToArray());
+
         topFace.positionCount = pointsPerCorner * 4;
-        points.Clear();
-        AddCorners();
+        pointsTop.Clear();
+        AddCorners(pointsTop,new Vector3(0,2,0));
+        VectorUtils.AnimationJitter(pointsTop);
+        topFace.positionCount = pointsTop.Count;
+        topFace.SetPositions(pointsTop.ToArray());
 
-        VectorUtils.AnimationJitter(points);
+        pointsConnector.Clear();
+        VectorUtils.Connect2Faces(pointsConnector, pointsBottom, pointsTop, pointsBottom.Count);
+        VectorUtils.AnimationJitter(pointsConnector);
 
-        topFace.positionCount = points.Count;
-        topFace.SetPositions(points.ToArray());
+        connectorFace.positionCount = pointsConnector.Count;
+        connectorFace.SetPositions(pointsConnector.ToArray());
 
     }
 }
