@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+[ExecuteAlways]
 public class CalcDrumModel : MonoBehaviour
 {
 
@@ -21,7 +22,7 @@ public class CalcDrumModel : MonoBehaviour
     public LineRenderer connectorFace;
     public GameObject baseObj;
 
-
+    private int frameCount = 0;
 
     public float segments;
     public float radius;
@@ -29,6 +30,7 @@ public class CalcDrumModel : MonoBehaviour
     public bool flag = false;
 
     public float jitter = 0.01f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,6 +65,11 @@ public class CalcDrumModel : MonoBehaviour
         
     }
     void Update(){ //order faces from top to bottom for readability
+        frameCount++;
+        if(frameCount % VectorUtils.renderEvery != 0){
+            return;
+        }
+
         setLineCounts();
 
         points.Clear();

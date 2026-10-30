@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+[ExecuteAlways]
 public class CalcCylinderThick : MonoBehaviour
 {
     public List<Vector3> TPoints;
@@ -19,6 +20,8 @@ public class CalcCylinderThick : MonoBehaviour
     public float height;
 
     public Transform lower;
+
+    private int frameCount = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,6 +44,12 @@ public class CalcCylinderThick : MonoBehaviour
 
     void Update()
     {
+
+        frameCount++;
+        if(frameCount % VectorUtils.renderEvery != 0){
+            return;
+        }
+
         setLineCounts();
 
         TPoints.Clear();

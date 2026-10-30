@@ -24,6 +24,7 @@ public class RectanglePrismRound : MonoBehaviour
 
     public float edgeSize = 1;
 
+    private int frameCount = 0;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,28 +50,42 @@ public class RectanglePrismRound : MonoBehaviour
         VectorUtils.DrawCircleQuarter(points, pointsPerCorner, radius, transform,new Vector3(-edgeSize+offset.x,0+offset.y,edgeSize+offset.z),.75f);
     }
 
+  
+
+
     void Update(){ 
+        frameCount++;
+        if(frameCount % VectorUtils.renderEvery != 0){
+            return;
+        }
+
         botFace.positionCount = pointsPerCorner * 4;
         pointsBottom.Clear();
         AddCorners(pointsBottom,new Vector3(0,0,0));
-        VectorUtils.AnimationJitter(pointsBottom);
+        
         botFace.positionCount = pointsBottom.Count;
+        VectorUtils.AnimationJitter(pointsBottom);
         botFace.SetPositions(pointsBottom.ToArray());
 
         topFace.positionCount = pointsPerCorner * 4;
         pointsTop.Clear();
         AddCorners(pointsTop,new Vector3(0,2,0));
-        VectorUtils.AnimationJitter(pointsTop);
+        
         topFace.positionCount = pointsTop.Count;
+        VectorUtils.AnimationJitter(pointsTop);
         topFace.SetPositions(pointsTop.ToArray());
 
         pointsConnector.Clear();
         VectorUtils.Connect2Faces(pointsConnector, pointsBottom, pointsTop, pointsBottom.Count);
-        VectorUtils.AnimationJitter(pointsConnector);
+        
 
         connectorFace.positionCount = pointsConnector.Count;
+        VectorUtils.AnimationJitter(pointsConnector);
         connectorFace.SetPositions(pointsConnector.ToArray());
 
+    
+
+        
     }
 }
 
