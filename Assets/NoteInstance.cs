@@ -15,7 +15,7 @@ public class NoteInstance : MonoBehaviour
     public float calibrationOffset;
 
     [Header ("Should be readonly")]
-    public double createdT;
+    public float createdT;
     public GameObject target; //we need to use d = rt to get here in sync with song
     public Vector3 rate;
     public bool missed;
@@ -38,7 +38,7 @@ public class NoteInstance : MonoBehaviour
 
     void Start(){
         currentState = state.Waiting;
-        createdT = Time.timeAsDouble;
+        createdT = Time.time;
         rate = (target.transform.position - transform.position)/timeUntilHit;
     }
 
