@@ -38,12 +38,14 @@ public class NoteTracker : MonoBehaviour
     public AudioSource levelSong;
 
     public int lastQBeat;
+    public int lastBeat;
 
 
 
     public float intensity = 4;
     
     public float rate = 0.26f;
+    public AudioSource debugMetronome;
 
 
 
@@ -68,23 +70,31 @@ public class NoteTracker : MonoBehaviour
         //ReadJson();
         calibrationSong.Play();
         //BPM = 97; //comment out once json files are implemented
-        sixteenthNote = (0.25f / BPM) * 60f;
-        nextBeatTiming = sixteenthNote;
-        songPlaying = true;
+        yield return StartCoroutine(RealStart());
     }
 
     public IEnumerator startLevel(AudioClip song){
         yield return new WaitForSeconds(0.4f);
+        yield return StartCoroutine(RealStart());
+    }
+
+    IEnumerator RealStart()
+    {
         sixteenthNote = (0.25f / BPM) * 60f;
         nextBeatTiming = sixteenthNote;
         musicStartDSP = AudioSettings.dspTime;
+        //yield return new WaitForSeconds(0.02f); //dsp time is calculated correctly but visuals are late
         levelSong.Play();
         songPlaying = true;
+        yield return null;
     }
 
 
-
-    // Update is called once per frame
+    void CheckIndex(int beatsPassed)
+    {
+        int currentIndex = levelChart[beatsPassed%levelChart.Length];
+        debugMetronome.Play();   
+    }
     void Update()
     {
         
@@ -93,7 +103,8 @@ public class NoteTracker : MonoBehaviour
             return;
         }
 
-        elapsedTime = AudioSettings.dspTime - musicStartDSP;
+        elapsedTime = AudioSettings.dspTime - musicStartDSP + LatencyConstants.calibrationOffset;
+
         beatsPassed = Mathf.FloorToInt((float)(elapsedTime / sixteenthNote));
         QbeatsPassed = Mathf.FloorToInt(beatsPassed/4f);
 
@@ -101,11 +112,18 @@ public class NoteTracker : MonoBehaviour
         if(QbeatsPassed != lastQBeat){
             //Debug.Log("hit");
             StartCoroutine(DecomposeGraphics());
+            
+        }
+
+        while (lastBeat < beatsPassed)
+        {
+            lastBeat++;
+            CheckIndex(lastBeat);   // pass the beat in, rather than reading beatsPassed
         }
 
 
-
         lastQBeat = Mathf.FloorToInt(beatsPassed/4f);
+        //lastBeat = beatsPassed;
     }
 
     IEnumerator DecomposeGraphics(){
