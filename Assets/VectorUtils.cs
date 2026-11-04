@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public static class VectorUtils{ //static so future scripts can access this function without needing to create an instance of the class or redundant code
 
+    public static readonly float globalWobbleOriginal = 0.02f;
     public static float globalWobble = 0.02f;
     public static float globalWobbleMult = 1f;
     public static float lineThickness = 0.8f;
