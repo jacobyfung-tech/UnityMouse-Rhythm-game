@@ -23,6 +23,7 @@ public class PlayerHammer : MonoBehaviour
     public SpriteRenderer playerR;
     public HammerAnimate hammerAnim;
     public HammerInput hammerInput;
+    public FadeInOut fadeInOut;
     public Explosion explosion;
     public GameObject entireObj;
 
@@ -64,7 +65,9 @@ public class PlayerHammer : MonoBehaviour
     void Start(){
         originalWobble = VectorUtils.globalWobbleMult;
         original = camera.transform.position;
-        camera.transform.position = original+new Vector3(-initialOffset,0,0) + camera.transform.forward*zoomOrig;;
+
+  
+
     }
 
     public void StartIntro()
@@ -72,6 +75,7 @@ public class PlayerHammer : MonoBehaviour
         realHammerPos = hammerAnim.transform.position;
         originalPos = playerR.transform.position;
         StartCoroutine(introAnim());
+        StartCoroutine(checkSkip());
     }
 
     // Update is called once per frame
@@ -113,7 +117,28 @@ public class PlayerHammer : MonoBehaviour
         }
     }
 
+    IEnumerator checkSkip(){
+        while (true){
+            yield return null;
+            if (Input.GetKeyDown(KeyCode.Space)){
+                StopAllCoroutines();
+                entireObj.transform.position = originalPos;
+                hammerAnim.transform.position = realHammerPos;
+                GameState.canInput = true;
+                Debug.Log("skipped cutscene");
+                GameState.levelNumber++;
+                StartCoroutine(fadeInOut.FadeOut(0.1f));
+                break;
+            }
+        }
+    }
     IEnumerator introAnim(){
+        camera.transform.position = original+new Vector3(-initialOffset,0,0) + camera.transform.forward*zoomOrig;
+        GameState.canInput = false;
+
+
+
+
 
         lastCoroutine = StartCoroutine(ChangeAnimation(playerR, keyPose1, frameTime, 1.8f, this));
 

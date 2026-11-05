@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement; 
 public class FadeInOut : MonoBehaviour
 {
     public float intensity;
@@ -18,6 +19,7 @@ public class FadeInOut : MonoBehaviour
     {
         
     }
+
     public IEnumerator FadeIn(float pause){
         
         float orig = VectorUtils.globalWobbleMult;
@@ -30,4 +32,11 @@ public class FadeInOut : MonoBehaviour
         }
         VectorUtils.globalWobbleMult = orig;
     }
+    public IEnumerator FadeOut(float pause){
+        VectorUtils.globalWobble = VectorUtils.globalWobbleOriginal;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //reload
+        yield return null;
+    }
+    //    public static readonly float globalWobbleOriginal = 0.02f;
+
 }

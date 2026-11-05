@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    public static int levelNumber = 0; //not set
+    public static int levelNumber; //not set
     public AudioClip[] songList;
     public NoteTracker nT;
     public static bool canInput = true;
@@ -33,7 +33,7 @@ public class GameState : MonoBehaviour
 
         if (levelNumber == 0){
             canInput = false;
-            StartCoroutine(nT.startTutorial());
+            StartCoroutine(nT.startTutorial(songList[0]));
         }
         else{
             canInput = true;

@@ -54,6 +54,7 @@ public class NoteTracker : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        songPlaying = false;
         originalWobble = VectorUtils.globalWobble;
 
 
@@ -64,16 +65,18 @@ public class NoteTracker : MonoBehaviour
     }
 
 
-    public IEnumerator startTutorial(){
+    public IEnumerator startTutorial(AudioClip song){
+        levelSong.clip = song;
         yield return new WaitForSeconds(0.4f);
         playerScript.StartIntro();
         //ReadJson();
-        calibrationSong.Play();
+
         //BPM = 97; //comment out once json files are implemented
         yield return StartCoroutine(RealStart());
     }
 
     public IEnumerator startLevel(AudioClip song){
+        levelSong.clip = song;
         yield return new WaitForSeconds(0.4f);
         yield return StartCoroutine(RealStart());
     }
