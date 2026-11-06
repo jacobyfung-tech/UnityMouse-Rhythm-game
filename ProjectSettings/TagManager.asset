@@ -8,6 +8,9 @@ TagManager:
   - TotalPlayerTag
   - Shadiw
   - Shadow
+  - Target
+  - NoteObj
+  - Spawn
   layers:
   - Default
   - TransparentFX

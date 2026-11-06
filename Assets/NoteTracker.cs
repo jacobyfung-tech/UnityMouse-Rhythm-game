@@ -96,7 +96,10 @@ public class NoteTracker : MonoBehaviour
     void CheckIndex(int beatsPassed)
     {
         int currentIndex = levelChart[beatsPassed%levelChart.Length];
-        debugMetronome.Play();   
+        if(currentIndex == 1)
+        {
+            NoteSpawner.createNote(sixteenthNote*4,LatencyConstants.window,LatencyConstants.calibrationOffset);
+        }
     }
     void Update()
     {

@@ -71,7 +71,7 @@ public class HammerInput : MonoBehaviour
             leftClickDown) //debounce
         {
 
-            Debug.Log("Mouse moved up by " + DMouseX + ", swinging hammer.");
+            //Debug.Log("Mouse moved up by " + DMouseX + ", swinging hammer.");
 
             playHit();
 
@@ -85,7 +85,7 @@ public class HammerInput : MonoBehaviour
             leftClickDown) //debounce
         {
 
-            Debug.Log("Mouse moved down by " + DMouseX + ", resetting hammer.");
+            //Debug.Log("Mouse moved down by " + DMouseX + ", resetting hammer.");
             hammerAnimator.ResetHammer();
 
             if (leftClickDown){

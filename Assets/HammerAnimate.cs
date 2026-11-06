@@ -2,9 +2,13 @@ using UnityEngine;
 using System.Collections;
 public class HammerAnimate : MonoBehaviour
 {
-    private int[] rotationFrames = {-6,10,17,48,-8,-3,-3,-2,-2,-1,0,0,0,0}; //manually defined rotation frames because rhythm games need to be deterministic
+    private int[] rotationFrames = {6,10,15,46};
+    private int[] reboundFrames = {-8,-3,-3,-2,-2,-1,0,0,0,0}; 
     public GameObject pivot;
     public float yDropSpeed = 0.1f;
+    public float rBound = 25;
+
+    public bool inside;
     public Vector3 originalRotation;
     
     
@@ -59,6 +63,19 @@ public class HammerAnimate : MonoBehaviour
 
     }
 
+    void OnCollisionEnter(Collision trigger)
+    {
+        Debug.Log("actually");
+        inside=true;
+        transform.RotateAround(pivot.transform.position, pivot.transform.forward, rBound);
+        transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * -rBound; //proportional to 
+        
+    }
+    void OnCollisionExit(Collision trigger)
+    {
+        inside=false;
+    }
+
     IEnumerator Animate()
     {
         currentState = HammerState.Swinging;
@@ -66,6 +83,23 @@ public class HammerAnimate : MonoBehaviour
         {
             transform.RotateAround(pivot.transform.position, pivot.transform.forward, -rotationFrames[i]);
             transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * rotationFrames[i]; //proportional to 
+            yield return null;
+            if (inside)
+            {
+                break;
+            }
+        }
+       
+        StartCoroutine(Rebound());
+
+
+    }
+    IEnumerator Rebound()
+    {
+        for (int i = 0; i < reboundFrames.Length; i++)
+        {
+            transform.RotateAround(pivot.transform.position, pivot.transform.forward, -reboundFrames[i]);
+            transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * reboundFrames[i]; //proportional to 
             yield return null;
         }
 
@@ -77,9 +111,6 @@ public class HammerAnimate : MonoBehaviour
             yield break; //avoid being at "bottom" while resetting because this prevents swinging
         }
         currentState = HammerState.Bottom;
-        
-
-
     }
 
     IEnumerator Animate(float delay)
@@ -89,7 +120,16 @@ public class HammerAnimate : MonoBehaviour
         {
             transform.RotateAround(pivot.transform.position, pivot.transform.forward, -rotationFrames[i]);
             transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * rotationFrames[i]; //proportional to 
-            yield return new WaitForSeconds(delay);
+            yield return null;
+        }
+
+
+        for (int i = 0; i < reboundFrames.Length; i++)
+        {
+
+            transform.RotateAround(pivot.transform.position, pivot.transform.forward, -reboundFrames[i]);
+            transform.parent.position += yDropSpeed * Vector3.down * Time.deltaTime * reboundFrames[i]; //proportional to 
+            yield return null;
         }
 
 
