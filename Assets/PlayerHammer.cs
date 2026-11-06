@@ -12,6 +12,7 @@ public class PlayerHammer : MonoBehaviour
     public Sprite[] jumpscare;
     public Sprite[] keyPose2;
     public Sprite[] hammerSwing;
+     public Sprite[] hammerSwingStayDown;
     public Sprite[] glance;
 
     [Header("Timing")]
@@ -66,7 +67,7 @@ public class PlayerHammer : MonoBehaviour
         originalWobble = VectorUtils.globalWobbleMult;
         original = camera.transform.position;
 
-  
+        StartCoroutine(syncHammer());
 
     }
 
@@ -76,12 +77,44 @@ public class PlayerHammer : MonoBehaviour
         originalPos = playerR.transform.position;
         StartCoroutine(introAnim());
         StartCoroutine(checkSkip());
+        
     }
+    IEnumerator syncHammer(){
+        bool down = false;
+        float swingDelay = 0.03f; 
+        float boilDefault = 0.08f;
 
+        while(true){
+            yield return null;
+            if(GameState.canInput){
+                
+                
+                if(hammerAnim.currentState == HammerAnimate.HammerState.Swinging && !down)
+                {
+                    down = !down;
+                    Debug.Log("syncing hammer a");
+                    if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+                    lastCoroutine = AnimationUtils.playOnce(this, playerR, hammerSwingStayDown, swingDelay, swingDelay*hammerSwingStayDown.Length);
+                    
+                }   
+                else if(hammerAnim.currentState == HammerAnimate.HammerState.Resetting && down)
+                {
+                    down = !down;
+                    if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+
+
+                    Debug.Log("reset hammer a");
+
+                    lastCoroutine = AnimationUtils.playOnce(this, playerR, keyPose2, boilDefault, Mathf.Infinity);
+                }
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        
+
+            
     }
 
     IEnumerator ChangeAnimation(SpriteRenderer playerR, Sprite[] frames, float frameTime, float duration, object script){

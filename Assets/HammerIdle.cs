@@ -15,6 +15,7 @@ public class HammerIdle : MonoBehaviour
 
     void Start()
     {
+
         startLocalPos = transform.localPosition;
         startGlobPos = transform.position;
         //transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -23,7 +24,10 @@ public class HammerIdle : MonoBehaviour
     void Update()
     {
 
-        
+        if (GameState.canInput)
+        {
+            return;
+        }
         float offset = Mathf.Sin(Time.time * frequency * Mathf.PI * 2f + phaseOffset) * amplitude;
         
         //transform.Rotate(Vector3.up * rotSpeed * Time.deltaTime, Space.World); 
