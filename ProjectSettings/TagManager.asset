@@ -11,6 +11,7 @@ TagManager:
   - Target
   - NoteObj
   - Spawn
+  - LineCamera
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Lines
+  - Overlay
   - 
   - 
   - 

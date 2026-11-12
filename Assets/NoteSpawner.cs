@@ -16,6 +16,7 @@ public class NoteSpawner : MonoBehaviour
         GameObject sp = GameObject.FindWithTag("Spawn");
         GameObject instance = Instantiate(GameObject.FindWithTag("NoteObj"), sp.transform.position, Quaternion.identity);
         NoteInstance scr = instance.GetComponent<NoteInstance>();
+        scr.enabled = true;
         scr.timeUntilHit = timeUntilHit;
         scr.window = window;
         scr.calibrationOffset = offset;

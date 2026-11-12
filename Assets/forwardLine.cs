@@ -24,12 +24,12 @@ public class bgLine : MonoBehaviour
         line.startColor = lineColor;
         line.endColor = lineColorEnd;
         vectorList = new List<Vector3>(pointC);   // this was missing
-        line.widthMultiplier = VectorUtils.lineThickness;
+        line.widthMultiplier = VectorUtils.lineThickness*1.1f;
     }
 
     void Update()
     {
-        line.widthMultiplier = VectorUtils.lineThickness;
+        line.widthMultiplier = VectorUtils.lineThickness*1.1f;
         Vector3 p1 = transform.position;
         for (int i = 0; i < points.Length; i++)
             points[i] = p1 + pointDist * i * transform.right;

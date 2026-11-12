@@ -68,7 +68,7 @@ public class HammerInput : MonoBehaviour
         if (
             DMouseX > mouseThreshold && 
             lastDMouseX <= mouseThreshold &&
-            leftClickDown) //debounce
+            leftClickDown && hammerAnimator.currentState == HammerAnimate.HammerState.Idle) //debounce
         {
 
             //Debug.Log("Mouse moved up by " + DMouseX + ", swinging hammer.");
@@ -79,41 +79,33 @@ public class HammerInput : MonoBehaviour
             hammerAnimator.StartSwing();
         }
         else if (
-            DMouseX < -mouseThreshold/2 &&
-            lastDMouseX >= -mouseThreshold/2 &&
-            hammerAnimator.currentState != HammerAnimate.HammerState.Idle &&
-            leftClickDown) //debounce
+            DMouseX < mouseThreshold &&
+            hammerAnimator.currentState == HammerAnimate.HammerState.Bottom &&
+            !leftClickDown) //debounce
         {
 
             //Debug.Log("Mouse moved down by " + DMouseX + ", resetting hammer.");
-            hammerAnimator.ResetHammer();
+            StartCoroutine(AwaitReset());
 
-            if (leftClickDown){
-                playCharge();
-            }
+
         }
 
-        checkChargeSFX();
+
+       
 
 
 
         lastDMouseX = DMouseX;
         lastDMouseY = DMouseY;
     }
-
-    void checkChargeSFX(){
-        if (!(hammerAnimator.currentState == HammerAnimate.HammerState.Idle || hammerAnimator.currentState == HammerAnimate.HammerState.Bottom)){
-            return; //don't play charging sound if hammer is not idle
+    IEnumerator AwaitReset()
+    {
+        while(hammerAnimator.currentState != HammerAnimate.HammerState.Bottom)
+        {
+            yield return null;
         }
-
-
-        bool leftClickDownNow = Input.GetMouseButtonDown(0);
-        if (leftClickDownNow){
-            playCharge();
-        }
-        else if (Input.GetMouseButtonUp(0)){
-            audioSource.loop = false;
-            audioSource.Stop();
-        }
+        hammerAnimator.ResetHammer();
     }
+
+
 }

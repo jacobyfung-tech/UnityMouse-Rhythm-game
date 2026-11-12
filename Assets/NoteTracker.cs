@@ -56,7 +56,7 @@ public class NoteTracker : MonoBehaviour
     {
         songPlaying = false;
         originalWobble = VectorUtils.globalWobble;
-
+        VectorUtils.Init();
 
 
 

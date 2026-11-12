@@ -167,7 +167,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_3
+      name: h3
       rect:
         serializedVersion: 2
         x: 1362
@@ -189,7 +189,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_4
+      name: h4
       rect:
         serializedVersion: 2
         x: 1717
@@ -211,10 +211,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_5
+      name: h5
       rect:
         serializedVersion: 2
-        x: 2062
+        x: 2034
         y: 788
         width: 278
         height: 442
@@ -387,13 +387,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_6
+      name: h6
       rect:
         serializedVersion: 2
-        x: 2467
-        y: 778
-        width: 278
-        height: 442
+        x: 2387
+        y: 777
+        width: 292
+        height: 451
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -453,7 +453,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_18
+      name: h2
       rect:
         serializedVersion: 2
         x: 1773
@@ -673,13 +673,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_7
+      name: h7
       rect:
         serializedVersion: 2
-        x: 2890
-        y: 782
-        width: 27
-        height: 529
+        x: 2744
+        y: 705
+        width: 285
+        height: 480
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -893,7 +893,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerHitStart
+      name: h1
       rect:
         serializedVersion: 2
         x: 1271
@@ -972,7 +972,6 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HammerHitStart: 1864404928
       HammerSp_0: 2130154155
       HammerSp_1: -1247662174
       HammerSp_10: 897462868
@@ -983,7 +982,6 @@ TextureImporter:
       HammerSp_15: -1106060452
       HammerSp_16: 45434491
       HammerSp_17: -1757991968
-      HammerSp_18: -1605828420
       HammerSp_19: -203152993
       HammerSp_2: 1582089025
       HammerSp_20: 1005540980
@@ -996,7 +994,6 @@ TextureImporter:
       HammerSp_27: 444513497
       HammerSp_28: -474310314
       HammerSp_29: -208005211
-      HammerSp_3: -1262966563
       HammerSp_30: 1002951981
       HammerSp_31: 991242020
       HammerSp_32: 908882809
@@ -1004,12 +1001,15 @@ TextureImporter:
       HammerSp_34: 1525129105
       HammerSp_35: -2000145349
       HammerSp_36: 278226407
-      HammerSp_4: 1271279605
-      HammerSp_5: -179608684
-      HammerSp_6: -1439709799
-      HammerSp_7: -1343402155
       HammerSp_8: 1009145901
       HammerSp_9: -399912347
+      h1: 1864404928
+      h2: -1605828420
+      h3: -1262966563
+      h4: 1271279605
+      h5: -179608684
+      h6: -1439709799
+      h7: -1343402155
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

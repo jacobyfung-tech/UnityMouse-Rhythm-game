@@ -48,6 +48,7 @@ public class Inputs : MonoBehaviour
         else if(Input.GetKey(KeyCode.D)){
             VectorUtils.lineThickness += 0.05f;
         }
+        Debug.Log("New thickness:" + VectorUtils.lineThickness);
     }
 
     // Update is called once per frame

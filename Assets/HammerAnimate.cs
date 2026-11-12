@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 public class HammerAnimate : MonoBehaviour
 {
-    private int[] rotationFrames = {6,10,15,46};
-    private int[] reboundFrames = {-8,-3,-3,-2,-2,-1,0,0,0,0}; 
+    private int[] rotationFrames = {-6,5,6,10,15,46};
+    private int[] reboundFrames = {-8,-3,-3,-2,-2,-1}; 
     public GameObject pivot;
     public float yDropSpeed = 0.1f;
     public float rBound = 25;

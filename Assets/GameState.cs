@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour
     }
     void Start()
     {
+        VectorUtils.Init();
         // 1. Disable VSync (Required, otherwise targetFrameRate is ignored)
         QualitySettings.vSyncCount = 0;
 

@@ -13,6 +13,7 @@ public class PlayerHammer : MonoBehaviour
     public Sprite[] keyPose2;
     public Sprite[] hammerSwing;
      public Sprite[] hammerSwingStayDown;
+      public Sprite[] hammerDown;
     public Sprite[] glance;
 
     [Header("Timing")]
@@ -81,7 +82,7 @@ public class PlayerHammer : MonoBehaviour
     }
     IEnumerator syncHammer(){
         bool down = false;
-        float swingDelay = 0.03f; 
+        float swingDelay = 0.029f; 
         float boilDefault = 0.08f;
 
         while(true){
@@ -95,7 +96,7 @@ public class PlayerHammer : MonoBehaviour
                     Debug.Log("syncing hammer a");
                     if (lastCoroutine != null) StopCoroutine(lastCoroutine);
                     lastCoroutine = AnimationUtils.playOnce(this, playerR, hammerSwingStayDown, swingDelay, swingDelay*hammerSwingStayDown.Length);
-                    
+
                 }   
                 else if(hammerAnim.currentState == HammerAnimate.HammerState.Resetting && down)
                 {

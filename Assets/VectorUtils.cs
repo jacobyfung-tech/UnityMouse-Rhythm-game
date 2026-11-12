@@ -6,9 +6,12 @@ public static class VectorUtils{ //static so future scripts can access this func
     public static readonly float globalWobbleOriginal = 0.02f;
     public static float globalWobble = globalWobbleOriginal;
     public static float globalWobbleMult = 1f;
-    public static float lineThickness = 0.8f;
+    public static float lineThickness = 1.2f;
     public static int renderEvery = 1; //originally meant for lineboil effects to look hand drawn, but temporarily set to 1 because transform based offsets are also limited and it's annoying to seperate
-
+    public static void Init()
+    {
+        globalWobble = globalWobbleOriginal;
+    }
 
     public static void DrawCircle(List<Vector3> points, float segments, float radius, Transform transform){
         for(int segment = 0; segment < segments; segment++){
