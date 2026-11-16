@@ -33,6 +33,8 @@ public class NoteInstance : MonoBehaviour
     }
     public state currentState;
 
+    public AudioSource debugMetronome;
+
 
     //in the future, create a script that constantly checks for every gameobject... 
     //...with tags associated with notes in cases where player inputs.
@@ -42,6 +44,8 @@ public class NoteInstance : MonoBehaviour
     }
 
     void Start(){
+        debugMetronome = gameObject.GetComponent<AudioSource>();
+        currentState = state.Waiting;
         transform.rotation = target.transform.rotation;
 
         currentState = state.Waiting;
@@ -54,7 +58,7 @@ public class NoteInstance : MonoBehaviour
     {
         dropped = false;
         transform.position += new Vector3(0,initY,0);
-        float bounce = 3.1f;
+        float bounce = 3.9f;
         Vector3 origin = transform.position;
         Vector3 floor = transform.position - new Vector3(0,initY+bounce,0);
         for(int i = 0; i < frames; i++)
@@ -83,18 +87,18 @@ public class NoteInstance : MonoBehaviour
         if(Time.timeAsDouble > lowerWindow
         && Time.timeAsDouble < upperWindow
         && currentState != state.HitWindowOpen){
+            debugMetronome.Play();
             Debug.Log("inputstart on " + gameObject.name);
             currentState = state.HitWindowOpen;
         }
         else if(Time.timeAsDouble >= upperWindow && currentState != state.HitWindowClosed){
+            debugMetronome.Play();
             Debug.Log("inputstart end " + gameObject.name);
             currentState = state.HitWindowClosed;
             Invoke("delete",3);
         }
-        else{
-            currentState = state.Waiting;
-            
-        }
+     
+  
 
 
         Vector3 next = originalPos + rate * elapsed;

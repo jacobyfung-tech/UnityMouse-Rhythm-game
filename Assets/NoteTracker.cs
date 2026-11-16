@@ -47,8 +47,8 @@ public class NoteTracker : MonoBehaviour
     public float rate = 0.26f;
     public AudioSource debugMetronome;
 
-    public float yOff = 10;
-    public int frames = 8;
+    public float yOff = 13.5f;
+    public int frames = 9;
 
 
     //in the future, read BPM and chart from json
