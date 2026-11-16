@@ -40,13 +40,15 @@ public class NoteTracker : MonoBehaviour
     public int lastQBeat;
     public int lastBeat;
 
-
+    public GameObject target;
 
     public float intensity = 4;
     
     public float rate = 0.26f;
     public AudioSource debugMetronome;
 
+    public float yOff = 10;
+    public int frames = 8;
 
 
     //in the future, read BPM and chart from json
@@ -98,7 +100,8 @@ public class NoteTracker : MonoBehaviour
         int currentIndex = levelChart[beatsPassed%levelChart.Length];
         if(currentIndex == 1)
         {
-            NoteSpawner.createNote(sixteenthNote*4,LatencyConstants.window,LatencyConstants.calibrationOffset);
+            debugMetronome.Play();
+            NoteSpawner.createNote(sixteenthNote*4,LatencyConstants.window,LatencyConstants.calibrationOffset,target,yOff,frames);
         }
     }
     void Update()
