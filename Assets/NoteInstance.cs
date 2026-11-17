@@ -81,18 +81,18 @@ public class NoteInstance : MonoBehaviour
 
     void Update(){
         float elapsed = (float)(Time.timeAsDouble - createdT);
-        float lowerWindow = createdT + timeUntilHit + calibrationOffset - window;
-        float upperWindow = createdT + timeUntilHit + calibrationOffset + window;
+        float lowerWindow = createdT + timeUntilHit - window;
+        float upperWindow = createdT + timeUntilHit + window;
         
         if(Time.timeAsDouble > lowerWindow
         && Time.timeAsDouble < upperWindow
         && currentState != state.HitWindowOpen){
-            debugMetronome.Play();
+            //debugMetronome.Play();
             Debug.Log("inputstart on " + gameObject.name);
             currentState = state.HitWindowOpen;
         }
         else if(Time.timeAsDouble >= upperWindow && currentState != state.HitWindowClosed){
-            debugMetronome.Play();
+            //debugMetronome.Play();
             Debug.Log("inputstart end " + gameObject.name);
             currentState = state.HitWindowClosed;
             Invoke("delete",3);

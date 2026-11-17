@@ -28,6 +28,8 @@ public class NoteTracker : MonoBehaviour
     public float originalWobble;
 
     public PlayerHammer playerScript;
+    public JudgeInput judge;
+
 
 
     public int levelNumber;
@@ -101,7 +103,14 @@ public class NoteTracker : MonoBehaviour
         if(currentIndex == 1)
         {
             debugMetronome.Play();
-            NoteSpawner.createNote(sixteenthNote*4,LatencyConstants.window,LatencyConstants.calibrationOffset,target,yOff,frames);
+            GameObject note = NoteSpawner.createNote(
+                sixteenthNote*4,
+                LatencyConstants.window,
+                LatencyConstants.calibrationOffset,
+                target,yOff,
+                frames);
+            
+            judge.line.Enqueue(note.GetComponent<NoteInstance>());
         }
     }
     void Update()

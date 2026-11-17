@@ -5,14 +5,13 @@ public class NoteSpawner : MonoBehaviour
 
     public GameObject sp;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
     }
 
-    public static void createNote(float timeUntilHit, float window, float offset, GameObject targ, float yOff, int frames)
+    public static GameObject createNote(float timeUntilHit, float window, float offset, GameObject targ, float yOff, int frames)
     {
         GameObject sp = GameObject.FindWithTag("Spawn");
         GameObject instance = Instantiate(GameObject.FindWithTag("NoteObj"), sp.transform.position, Quaternion.identity);
@@ -24,6 +23,8 @@ public class NoteSpawner : MonoBehaviour
         scr.calibrationOffset = offset;
         scr.initY = yOff;
         scr.frames = frames;
+
+        return instance;
 
 
     }

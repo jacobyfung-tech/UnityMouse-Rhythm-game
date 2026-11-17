@@ -67,7 +67,6 @@ public class HammerInput : MonoBehaviour
 
         if (
             DMouseX > mouseThreshold && 
-            lastDMouseX <= mouseThreshold &&
             leftClickDown && hammerAnimator.currentState == HammerAnimate.HammerState.Idle) //debounce
         {
 
