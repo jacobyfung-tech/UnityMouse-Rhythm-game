@@ -53,6 +53,10 @@ public class NoteTracker : MonoBehaviour
     public int frames = 9;
 
 
+    public Camera l1;
+    public Camera l2;
+    public Camera l3;
+
     //in the future, read BPM and chart from json
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -145,7 +149,7 @@ public class NoteTracker : MonoBehaviour
     }
 
     IEnumerator DecomposeGraphics(){
-        
+
         float tWobble = VectorUtils.globalWobble * intensity;
 
         for (int i = 0; i < 10; i++){

@@ -54,10 +54,7 @@ public class RectanglePrismRound : MonoBehaviour
 
 
     void Update(){ 
-        frameCount++;
-        if(frameCount % VectorUtils.renderEvery != 0){
-            return;
-        }
+
 
         botFace.positionCount = pointsPerCorner * 4;
         pointsBottom.Clear();

@@ -4,7 +4,7 @@ using UnityEngine;
 public static class Stagger
 {
 
-    static int _divisor = 4;
+    static int _divisor = 1;
 
 
     public static bool Tick(Transform t) => Tick(t, _divisor);
