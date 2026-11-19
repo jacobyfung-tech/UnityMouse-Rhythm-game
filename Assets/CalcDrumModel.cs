@@ -22,7 +22,7 @@ public class CalcDrumModel : MonoBehaviour
     public LineRenderer connectorFace;
     public GameObject baseObj;
 
-    private int frameCount = 0;
+
 
     public float segments;
     public float radius;
@@ -65,11 +65,12 @@ public class CalcDrumModel : MonoBehaviour
         
     }
     void Update(){ //order faces from top to bottom for readability
-        frameCount++;
-        if(frameCount % VectorUtils.renderEvery != 0){
+
+        if (!Stagger.Tick(transform))
+        {
             return;
         }
-
+        
         setLineCounts();
 
         points.Clear();

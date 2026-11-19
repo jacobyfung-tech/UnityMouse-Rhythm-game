@@ -21,7 +21,7 @@ public class CalcCylinderThick : MonoBehaviour
 
     public Transform lower;
 
-    private int frameCount = 0;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,11 +44,12 @@ public class CalcCylinderThick : MonoBehaviour
 
     void Update()
     {
-
-        frameCount++;
-        if(frameCount % VectorUtils.renderEvery != 0){
+        if (!Stagger.Tick(transform))
+        {
             return;
         }
+
+
 
         setLineCounts();
 

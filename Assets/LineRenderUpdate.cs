@@ -23,6 +23,11 @@ public class LineRenderUpdate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Stagger.Tick(transform))
+        {
+            return;
+        }
+        
         for(int i = 0; i < objects.Length; i++){
             points[i] = objects[i].position;
         }

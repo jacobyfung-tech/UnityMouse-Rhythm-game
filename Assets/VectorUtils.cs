@@ -54,13 +54,15 @@ public static class VectorUtils{ //static so future scripts can access this func
     }
 
     public static void AnimationJitter(List<Vector3> points){ //randomize point positions slightly for lineboil effect
+        float r = VectorUtils.globalWobble * VectorUtils.globalWobbleMult;
+        if (r <= 0f) return;   // no wobble, no work
         float wobble = VectorUtils.globalWobble;
 
         for(int i = 0; i < points.Count; i++){
             points[i] += new Vector3(
-            Random.Range(-wobble*VectorUtils.globalWobbleMult, wobble*VectorUtils.globalWobbleMult), 
-            Random.Range(-wobble*VectorUtils.globalWobbleMult, wobble*VectorUtils.globalWobbleMult), 
-            Random.Range(-wobble*VectorUtils.globalWobbleMult, wobble*VectorUtils.globalWobbleMult));
+            Random.Range(-r, r), 
+            Random.Range(-r, r), 
+            Random.Range(-r, r));
         }
 
         
