@@ -53,9 +53,7 @@ public class NoteTracker : MonoBehaviour
     public int frames = 9;
 
 
-    public Camera l1;
-    public Camera l2;
-    public Camera l3;
+
 
     //in the future, read BPM and chart from json
 

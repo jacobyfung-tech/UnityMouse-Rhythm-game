@@ -23,7 +23,7 @@ public class NoteInstance : MonoBehaviour
     public bool dropped = false;
     public float createdT;
     public Vector3 rate;
-    public bool missed;
+    public bool missed = true;
     public Vector3 originalPos;
         public enum state{
         Waiting,

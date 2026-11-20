@@ -145,13 +145,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_1
+      name: Crouch1
       rect:
         serializedVersion: 2
-        x: 624
-        y: 797
-        width: 293
-        height: 443
+        x: 605
+        y: 795
+        width: 312
+        height: 445
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -651,13 +651,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerSp_2
+      name: Crouch2
       rect:
         serializedVersion: 2
-        x: 1114
-        y: 665
-        width: 16
-        height: 677
+        x: 935
+        y: 792
+        width: 307
+        height: 466
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -972,8 +972,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Crouch1: -1247662174
+      Crouch2: 1582089025
       HammerSp_0: 2130154155
-      HammerSp_1: -1247662174
       HammerSp_10: 897462868
       HammerSp_11: 442666985
       HammerSp_12: -1272168111
@@ -983,7 +984,6 @@ TextureImporter:
       HammerSp_16: 45434491
       HammerSp_17: -1757991968
       HammerSp_19: -203152993
-      HammerSp_2: 1582089025
       HammerSp_20: 1005540980
       HammerSp_21: 1065103026
       HammerSp_22: -168664599

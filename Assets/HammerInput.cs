@@ -4,6 +4,7 @@ public class HammerInput : MonoBehaviour
 {
     public Inputs inputHandler;
     public HammerAnimate hammerAnimator;
+    public JudgeInput judgeInput;
     public float mouseThreshold; //threshold for mouse movement to trigger hammer swing, i'd recommend 0.25
 
     public float lastDMouseX;
@@ -74,7 +75,7 @@ public class HammerInput : MonoBehaviour
 
             playHit();
 
-
+            judgeInput.Judge();
             hammerAnimator.StartSwing();
         }
         else if (
