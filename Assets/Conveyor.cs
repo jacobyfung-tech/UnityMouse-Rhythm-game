@@ -14,7 +14,7 @@ public class Conveyor : MonoBehaviour
     public LineRenderer connectorFace;
     public int segments;
     public int midSegments;
-    public float givenSpeed;
+    public Vector3 givenSpeed;
     public Vector3 originalPos;
     //public Vector3 rate;
     public float start = Time.time;
@@ -51,9 +51,9 @@ public class Conveyor : MonoBehaviour
         VectorUtils.AnimationJitter(midPoints);
 
         connectorFace.SetPositions(midPoints.ToArray());
-
-        float period = 8f * distancePerSpan;                     
-        double frac = ((Time.time - start) * givenSpeed) % 1.0;
-        transform.position = originalPos - transform.forward * (float)frac * period;
+        float period = 4f * distancePerSpan * transform.lossyScale.z;     // world distance of one pattern repeat
+        double travelled = (Time.timeAsDouble - start) * givenSpeed.magnitude;   // world units moved
+        float shift = (float)(travelled % period);                        // distance into the current repeat
+        transform.position = originalPos - transform.forward * shift;
     }
 }

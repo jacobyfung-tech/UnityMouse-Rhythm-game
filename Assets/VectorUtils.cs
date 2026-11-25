@@ -9,6 +9,8 @@ public static class VectorUtils{ //static so future scripts can access this func
     public static float lineThickness = 1.2f;
 
     public static int corners = 3;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() { globalWobble = globalWobbleOriginal; }
     public static void Init()
     {
         globalWobble = globalWobbleOriginal;

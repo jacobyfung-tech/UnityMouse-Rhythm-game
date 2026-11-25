@@ -58,7 +58,7 @@ public class NoteInstance : MonoBehaviour
 
         GameObject grid = GameObject.FindWithTag("LevelGrid");
         if(grid){
-            grid.GetComponent<Conveyor>().givenSpeed = new Vector2(rate.x,rate.z).magnitude;
+            grid.GetComponent<Conveyor>().givenSpeed = rate;
         }
         else
         {
@@ -68,9 +68,10 @@ public class NoteInstance : MonoBehaviour
 
     IEnumerator Fall()
     {
-        dropped = false;
-        transform.position += new Vector3(0,initY,0);
         float bounce = 3.9f;
+        dropped = false;
+        transform.position += new Vector3(0,initY-bounce/2,0);
+
         Vector3 origin = transform.position;
         Vector3 floor = transform.position - new Vector3(0,initY+bounce,0);
         for(int i = 0; i < frames; i++)
