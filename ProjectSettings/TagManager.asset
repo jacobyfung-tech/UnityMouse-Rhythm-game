@@ -12,6 +12,7 @@ TagManager:
   - NoteObj
   - Spawn
   - LineCamera
+  - LevelGrid
   layers:
   - Default
   - TransparentFX

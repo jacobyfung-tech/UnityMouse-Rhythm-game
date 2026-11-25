@@ -3,7 +3,7 @@ using UnityEngine;
 public class LatencyConstants : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public static float calibrationOffset = -.15f; //later this will be modifiable by the user, but for now it is hardcoded
+    public static float calibrationOffset = -.17f; //later this will be modifiable by the user, but for now it is hardcoded
     public static float window = 0.05f; //both ways window 
     void Update()
     {

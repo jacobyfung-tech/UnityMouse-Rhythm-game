@@ -36,11 +36,13 @@ public class NoteInstance : MonoBehaviour
     public AudioSource debugMetronome;
 
 
+
     //in the future, create a script that constantly checks for every gameobject... 
     //...with tags associated with notes in cases where player inputs.
 
     void Awake(){
         originalPos = transform.position;
+        
     }
 
     void Start(){
@@ -48,10 +50,20 @@ public class NoteInstance : MonoBehaviour
         currentState = state.Waiting;
         transform.rotation = target.transform.rotation;
 
-        currentState = state.Waiting;
+
         createdT = Time.time;
         rate = (target.transform.position - transform.position)/timeUntilHit;
+        
         StartCoroutine(Fall());
+
+        GameObject grid = GameObject.FindWithTag("LevelGrid");
+        if(grid){
+            grid.GetComponent<Conveyor>().givenSpeed = new Vector2(rate.x,rate.z).magnitude;
+        }
+        else
+        {
+            Debug.Log("where grid");
+        }
     }
 
     IEnumerator Fall()
@@ -80,6 +92,7 @@ public class NoteInstance : MonoBehaviour
     }
 
     void Update(){
+        
         float elapsed = (float)(Time.timeAsDouble - createdT);
         float lowerWindow = createdT + timeUntilHit - window;
         float upperWindow = createdT + timeUntilHit + window;
@@ -88,13 +101,15 @@ public class NoteInstance : MonoBehaviour
         && Time.timeAsDouble < upperWindow
         && currentState != state.HitWindowOpen){
             //debugMetronome.Play();
-            Debug.Log("inputstart on " + gameObject.name);
+            //Debug.Log("inputstart on " + gameObject.name);
             currentState = state.HitWindowOpen;
         }
         else if(Time.timeAsDouble >= upperWindow && currentState != state.HitWindowClosed){
             //debugMetronome.Play();
-            Debug.Log("inputstart end " + gameObject.name);
+            //Debug.Log("inputstart end " + gameObject.name);
             currentState = state.HitWindowClosed;
+            //missed = true;
+            Debug.Log("according to note missed: " + missed);
             Invoke("delete",3);
         }
      

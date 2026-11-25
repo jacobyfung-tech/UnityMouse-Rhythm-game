@@ -4,6 +4,7 @@ public class JudgeInput : MonoBehaviour
 {
     public Queue<NoteInstance> line = new Queue<NoteInstance>(); 
     public HammerAnimate hammerAnimator;
+    public NoteInstance note;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,7 +24,7 @@ public class JudgeInput : MonoBehaviour
     public void Judge()
     {
         if(line.Count < 1) return;
-        NoteInstance note = line.Peek();
+        note = line.Peek();
         if (note == null) return;    
 
         if(line.Count > 0 &&
@@ -35,15 +36,18 @@ public class JudgeInput : MonoBehaviour
         }
         else
         {
-            note.missed = false;
+            //note.missed = false;
+            note.missed = true;
             Debug.Log("Registered off beat input");
             checkHowOff();
+
         }
     }
     void checkHowOff()
     {
         float neutral = line.Peek().createdT + line.Peek().timeUntilHit;
-        Debug.Log("Apparently off by " + (Time.timeAsDouble-neutral));
+        Debug.Log("Apparently off by " + (Time.timeAsDouble-neutral) + "dequeing note " + note.gameObject.name);
+        line.Dequeue();
     }
     void Update()
     {
@@ -51,11 +55,10 @@ public class JudgeInput : MonoBehaviour
             (line.Peek() == null ||
             line.Peek().currentState == NoteInstance.state.HitWindowClosed))
         {
-            Debug.Log("Dequed " + line.Peek().gameObject.name);
-            if (note.missed)
-            {
-                Debug.Log("Missed");
-            }
+            note = line.Peek();
+            //Debug.Log("Dequed " + line.Peek().gameObject.name);
+
+            Debug.Log("dequeue " + note.gameObject.name + "because it was missed");
             line.Dequeue();   // notes out of window can be forgotten, will destroy themselves in a few seconds
         }
     }
