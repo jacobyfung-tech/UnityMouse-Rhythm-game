@@ -59,7 +59,7 @@ public class PlayerHammer : MonoBehaviour
     public float cameraLSpeed;
     public float zoomOrig;
 
-
+    public bool missed = false;
     [Header("Wobble")]
     public float originalWobble;
 
@@ -88,9 +88,12 @@ public class PlayerHammer : MonoBehaviour
         while(true){
             yield return null;
             if(GameState.canInput){
-                
-                
-                if(hammerAnim.currentState == HammerAnimate.HammerState.Swinging && !down)
+
+                if (missed)
+                {
+                    continue;
+                }
+                else if(hammerAnim.currentState == HammerAnimate.HammerState.Swinging && !down)
                 {
                     down = !down;
                     Debug.Log("syncing hammer a");
@@ -111,6 +114,21 @@ public class PlayerHammer : MonoBehaviour
             }
         }
     }
+
+    public IEnumerator missedNote()
+    {
+        Sprite lastSprite = playerR.sprite;
+
+        missed = true;
+        if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+        lastCoroutine = AnimationUtils.playOnce(this, playerR, jumpscare, 0.04f, 0.3f);
+        yield return new WaitForSeconds(0.3f);
+        missed = false;
+        playerR.sprite = lastSprite;
+        if (lastCoroutine != null) StopCoroutine(lastCoroutine);
+        
+    }
+
     // Update is called once per frame
     void Update()
     {

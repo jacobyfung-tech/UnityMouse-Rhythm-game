@@ -7,6 +7,7 @@ public class GameState : MonoBehaviour
     public NoteTracker nT;
     public static bool canInput = true;
     public FadeInOut initializeScreen;
+    public float zOut = 12;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void loadJSON(){
@@ -39,6 +40,8 @@ public class GameState : MonoBehaviour
         else{
             canInput = true;
             StartCoroutine(nT.startLevel(songList[levelNumber]));
+            GameObject cam = GameObject.FindWithTag("MainCamera");
+            cam.transform.position -= cam.transform.forward * zOut;
         }
     }
     // Update is called once per frame

@@ -44,11 +44,13 @@ public class Inputs : MonoBehaviour
     void LineThicknessMod(){ //debug to check if lineThickness is actually global
         if(Input.GetKey(KeyCode.A)){
             VectorUtils.lineThickness -= 0.05f;
+            Debug.Log("New thickness:" + VectorUtils.lineThickness);
         }
         else if(Input.GetKey(KeyCode.D)){
             VectorUtils.lineThickness += 0.05f;
+            Debug.Log("New thickness:" + VectorUtils.lineThickness);
         }
-        Debug.Log("New thickness:" + VectorUtils.lineThickness);
+        
     }
 
     // Update is called once per frame

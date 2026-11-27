@@ -25,12 +25,23 @@ public class NoteInstance : MonoBehaviour
     public Vector3 rate;
     public bool missed = true;
     public Vector3 originalPos;
-        public enum state{
+    public enum state{
         Waiting,
         HitWindowOpen,
         HitWindowClosed
 
     }
+
+    public enum animatedState{
+        Idle,
+        Early,
+        Perfect,
+        Late,
+        Missed,
+
+
+    }
+    public animatedState currentAnimateState = animatedState.Idle;
     public state currentState;
 
     public AudioSource debugMetronome;
