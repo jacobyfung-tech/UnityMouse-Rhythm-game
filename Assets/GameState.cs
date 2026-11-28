@@ -11,6 +11,7 @@ public class GameState : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void loadJSON(){
+        Debug.Log("ON LEVEL " + GameState.levelNumber);
         TextAsset file = Resources.Load<TextAsset>($"SongLevels/level_{GameState.levelNumber}");
         JsonUtility.FromJsonOverwrite(file.text, nT);
 
@@ -35,11 +36,11 @@ public class GameState : MonoBehaviour
 
         if (levelNumber == 0){
             canInput = false;
-            StartCoroutine(nT.startTutorial(songList[0]));
+            StartCoroutine(nT.startTutorial());
         }
         else{
             canInput = true;
-            StartCoroutine(nT.startLevel(songList[levelNumber]));
+            StartCoroutine(nT.startLevel());
             GameObject cam = GameObject.FindWithTag("MainCamera");
             cam.transform.position -= cam.transform.forward * zOut;
         }

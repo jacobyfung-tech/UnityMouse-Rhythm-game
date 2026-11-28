@@ -52,6 +52,8 @@ public class NoteTracker : MonoBehaviour
     public float yOff = 13.5f;
     public int frames = 9;
 
+    public string loadedSongName;
+    public AudioClip song;
 
 
 
@@ -60,6 +62,7 @@ public class NoteTracker : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         songPlaying = false;
         originalWobble = VectorUtils.globalWobble;
         VectorUtils.Init();
@@ -71,8 +74,8 @@ public class NoteTracker : MonoBehaviour
     }
 
 
-    public IEnumerator startTutorial(AudioClip song){
-        levelSong.clip = song;
+    public IEnumerator startTutorial(){
+        levelSong.clip = Resources.Load<AudioClip>("Music/" + "eveningstarLoop");;
         yield return new WaitForSeconds(0.4f);
         playerScript.StartIntro();
         //ReadJson();
@@ -81,7 +84,8 @@ public class NoteTracker : MonoBehaviour
         yield return StartCoroutine(RealStart());
     }
 
-    public IEnumerator startLevel(AudioClip song){
+    public IEnumerator startLevel(){
+        song = Resources.Load<AudioClip>("Music/" + loadedSongName);
         levelSong.clip = song;
         yield return new WaitForSeconds(0.4f);
         yield return StartCoroutine(RealStart());

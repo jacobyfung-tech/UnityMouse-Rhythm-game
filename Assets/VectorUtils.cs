@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public static class VectorUtils{ //static so future scripts can access this function without needing to create an instance of the class or redundant code
 
 
-    public static readonly float globalWobbleOriginal = 0.02f;
+    public  const float globalWobbleOriginal = 0.02f;
     public static float globalWobble = globalWobbleOriginal;
     public static float globalWobbleMult = 1f;
     public static float lineThickness = 1.2f;
@@ -15,6 +15,7 @@ public static class VectorUtils{ //static so future scripts can access this func
     {
         globalWobble = globalWobbleOriginal;
     }
+
 
     public static void DrawCircle(List<Vector3> points, float segments, float radius, Transform transform){
         for(int segment = 0; segment < segments; segment++){
